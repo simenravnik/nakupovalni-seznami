@@ -1,1 +1,1 @@
-# Nakupovalni sezanmi
+# Nakupovalni seznami
