@@ -1,10 +1,12 @@
+package si.fri.prpo.nakupovanje.entitete;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity(name="uporabnik")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Uporabnik.getAll", query = "SELECT u FROM Uporabnik u")
+                @NamedQuery(name = "si.fri.prpo.nakupovanje.entitete.Uporabnik.getAll", query = "SELECT u FROM Uporabnik u")
                 // TODO: se tri smiselne poizvedbe
         })
 public class Uporabnik {
