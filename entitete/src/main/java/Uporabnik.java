@@ -1,15 +1,16 @@
 import javax.persistence.*;
+import java.util.List;
 
-@Entity(name="student")
+@Entity(name="uporabnik")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Opomnik.getAll", query = "SELECT u FROM uporabnik u")
+                @NamedQuery(name = "Uporabnik.getAll", query = "SELECT u FROM Uporabnik u")
                 // TODO: se tri smiselne poizvedbe
         })
 public class Uporabnik {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="ime", length=50, nullable=false, unique=false)
@@ -27,6 +28,8 @@ public class Uporabnik {
     @Column(name="geslo", length=50, nullable=false, unique=false)
     private String geslo;
 
+    @OneToMany(mappedBy = "uporabnik", cascade = CascadeType.ALL)
+    private List<NakupovalniSeznam> nakupovalniSeznami;
 
     public Long getId() {
         return id;
@@ -74,5 +77,13 @@ public class Uporabnik {
 
     public void setGeslo(String geslo) {
         this.geslo = geslo;
+    }
+
+    public List<NakupovalniSeznam> getNakupovalniSeznami() {
+        return nakupovalniSeznami;
+    }
+
+    public void setNakupovalniSeznami(List<NakupovalniSeznam> nakupovalniSeznami) {
+        this.nakupovalniSeznami = nakupovalniSeznami;
     }
 }
