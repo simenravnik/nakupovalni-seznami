@@ -8,8 +8,8 @@ import java.util.List;
 @Table(name = "nakupovalni_seznam")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam.getAll", query = "SELECT n FROM NakupovalniSeznam n"),
-                @NamedQuery(name = "si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam.getSeznamForUporabnik",
+                @NamedQuery(name = "NakupovalniSeznam.getAll", query = "SELECT n FROM NakupovalniSeznam n"),
+                @NamedQuery(name = "NakupovalniSeznam.getSeznamForUporabnik",
                         query = "SELECT n FROM NakupovalniSeznam n WHERE n.uporabnik = :uporabnik")
         })
 public class NakupovalniSeznam {
