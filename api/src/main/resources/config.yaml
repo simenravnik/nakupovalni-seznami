@@ -1,5 +1,5 @@
 kumuluzee:
-  name: nakupovalni-seznami-jdbc
+  name: nakupovalni-seznami
     version: 1.0.0
     env:
       name: dev
