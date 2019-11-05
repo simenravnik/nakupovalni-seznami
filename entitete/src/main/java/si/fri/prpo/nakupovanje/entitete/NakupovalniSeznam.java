@@ -4,8 +4,10 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
 
-@Entity
-@Table(name = "nakupovalni_seznam")
+// entity pove da je entiteta, table pa veze class na tabelo
+// semizdi da pol @Column pa to dela
+
+@Entity @Table(name = "nakupovalni_seznam")
 @NamedQueries(value =
         {
                 @NamedQuery(name = "NakupovalniSeznam.getAll", query = "SELECT n FROM NakupovalniSeznam n"),

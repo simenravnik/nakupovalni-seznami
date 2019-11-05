@@ -3,7 +3,7 @@ package si.fri.prpo.nakupovanje.entitete;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name="uporabnik")
+@Entity @Table(name = "uporabnik")
 @NamedQueries(value =
         {
                 @NamedQuery(name = "Uporabnik.getAll", query = "SELECT u FROM Uporabnik u")
@@ -11,8 +11,7 @@ import java.util.List;
         })
 public class Uporabnik {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="ime", length=50, nullable=false, unique=false)
@@ -24,7 +23,7 @@ public class Uporabnik {
     @Column(name="email", length=50, nullable=false, unique=false)
     private String email;
 
-    @Column(name="uporabniskoime", length=50, nullable=false, unique=false)
+    @Column(name="uporabniskoime", length=50, nullable=false, unique=true)
     private String uporabniskoIme;
 
     @Column(name="geslo", length=50, nullable=false, unique=false)
