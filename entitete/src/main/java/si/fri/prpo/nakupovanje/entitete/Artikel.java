@@ -11,7 +11,7 @@ import java.util.List;
         })
 public class Artikel {
     // class atributs
-    @id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "ime_artikla", length = 50, nullable = false, unique = false)
