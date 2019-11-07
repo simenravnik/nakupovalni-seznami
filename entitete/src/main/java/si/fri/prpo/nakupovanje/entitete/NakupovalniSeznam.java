@@ -9,6 +9,10 @@ import java.util.List;
 @NamedQueries(value =
         {
                 @NamedQuery(name = "NakupovalniSeznam.getAll", query = "SELECT n FROM NakupovalniSeznam n"),
+                @NamedQuery(name = "NakupovalniSeznam.getSeznamById",
+                        query = "SELECT n FROM NakupovalniSeznam n WHERE n.id = :id"),
+                @NamedQuery(name = "NakupovalniSeznam.getSeznamByName",
+                        query = "SELECT n FROM NakupovalniSeznam n WHERE n.naziv = :naziv"),
                 @NamedQuery(name = "NakupovalniSeznam.getSeznamForUporabnik",
                         query = "SELECT n FROM NakupovalniSeznam n WHERE n.uporabnik = :uporabnik")
         })

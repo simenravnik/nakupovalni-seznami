@@ -7,8 +7,13 @@ import java.util.List;
 @Table(name = "uporabnik")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Uporabnik.getAll", query = "SELECT u FROM Uporabnik u")
-                // TODO: se tri smiselne poizvedbe
+                @NamedQuery(name = "Uporabnik.getAll", query = "SELECT u FROM Uporabnik u"),
+                @NamedQuery(name = "Uporabnik.getUporabnikById",
+                        query = "SELECT u FROM Uporabnik u WHERE u.id = :id"),
+                @NamedQuery(name = "Uporabnik.getUporabnikByUsername",
+                        query = "SELECT u FROM Uporabnik u WHERE u.uporabniskoIme = :uporabniskoIme"),
+                @NamedQuery(name = "Uporabnik.getUporabnikByEmail",
+                        query = "SELECT u FROM Uporabnik u WHERE u.email = :email")
         })
 public class Uporabnik {
 

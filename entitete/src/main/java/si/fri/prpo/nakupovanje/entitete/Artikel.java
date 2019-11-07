@@ -6,7 +6,13 @@ import javax.persistence.*;
 @Table(name = "artikel")
 @NamedQueries(
         {
-                @NamedQuery(name = "artikel.getAll", query = "SELECT a FROM Artikel a")
+                @NamedQuery(name = "artikel.getAll", query = "SELECT a FROM Artikel a"),
+                @NamedQuery(name = "artikel.getArtikelById",
+                        query = "SELECT a FROM Artikel a WHERE a.id = :id"),
+                @NamedQuery(name = "artikel.getArtikelByName",
+                        query = "SELECT a FROM Artikel a WHERE a.imeArtikla = :imeArtikla"),
+                @NamedQuery(name = "artikel.getArtikelForNakupovalniSeznam",
+                        query = "SELECT a FROM Artikel a WHERE a.nakupovalniSeznam = :nakupovalniSeznam")
         })
 public class Artikel {
 
