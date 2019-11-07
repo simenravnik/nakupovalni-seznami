@@ -33,6 +33,15 @@ public class JPAServlet extends HttpServlet {
         // printing the users
         out.append("<br><h1>Uporabniki:</h1>");
         List<Uporabnik> uporabniki = uporabnikiZrno.pridobiUporabnike();
+        izpisi(out, uporabniki);
+
+        out.append("<br><h1>Uporabniki z Criteria api:</h1>");
+        List<Uporabnik> uporabnikiCriteria = uporabnikiZrno.pridobiUporabnikiCriteria();
+        izpisi(out, uporabnikiCriteria);
+
+    }
+
+    public static void izpisi(PrintWriter out, List<Uporabnik> uporabniki) {
         uporabniki.forEach(u -> {
             out.append("Ime: " + u.getIme() + "<br>");
             out.append("Priimek: " + u.getPriimek() + "<br>");
