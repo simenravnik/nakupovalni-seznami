@@ -4,10 +4,8 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
 
-// entity pove da je entiteta, table pa veze class na tabelo
-// semizdi da pol @Column pa to dela
-
-@Entity @Table(name = "nakupovalni_seznam")
+@Entity
+@Table(name = "nakupovalni_seznam")
 @NamedQueries(value =
         {
                 @NamedQuery(name = "NakupovalniSeznam.getAll", query = "SELECT n FROM NakupovalniSeznam n"),
@@ -35,16 +33,6 @@ public class NakupovalniSeznam {
 
     @OneToMany(mappedBy = "nakupovalniSeznam")
     private List<Artikel> artikli;
-
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "nakupovalni_seznam_oznaka",
-            joinColumns = @JoinColumn(name = "nakupovalni_seznam_id"),
-            inverseJoinColumns = @JoinColumn(name = "oznaka_id")
-    )
-    private List<Oznaka> oznake;
 
     public Integer getId() {
         return id;
@@ -92,13 +80,5 @@ public class NakupovalniSeznam {
 
     public void setArtikli(List<Artikel> artikli) {
         this.artikli = artikli;
-    }
-
-    public List<Oznaka> getOznake() {
-        return oznake;
-    }
-
-    public void setOznake(List<Oznaka> oznake) {
-        this.oznake = oznake;
     }
 }
