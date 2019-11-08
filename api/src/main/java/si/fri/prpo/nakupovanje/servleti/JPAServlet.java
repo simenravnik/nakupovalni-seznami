@@ -1,6 +1,9 @@
 package si.fri.prpo.nakupovanje.servleti;
 
+import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;
+import si.fri.prpo.nakupovanje.zrna.ArtikliZrno;
+import si.fri.prpo.nakupovanje.zrna.SeznamiZrno;
 import si.fri.prpo.nakupovanje.zrna.UporabnikiZrno;
 
 import javax.inject.Inject;
@@ -20,6 +23,9 @@ public class JPAServlet extends HttpServlet {
     @Inject
     private UporabnikiZrno uporabnikiZrno;
 
+    @Inject
+    private ArtikliZrno artikliZrno;
+
     private static final Logger log = Logger.getLogger(JPAServlet.class.getName());
 
     @Override
@@ -32,13 +38,14 @@ public class JPAServlet extends HttpServlet {
 
         // printing the users
         out.append("<br><h1>Uporabniki:</h1>");
-        List<Uporabnik> uporabniki = uporabnikiZrno.pridobiUporabnike();
-        izpisi(out, uporabniki);
+        uporabnikiZrno.pridobiUporabnike().stream().forEach(u -> out.append(u.toString() + "<br><br>"));
 
         out.append("<br><h1>Uporabniki z Criteria api:</h1>");
-        List<Uporabnik> uporabnikiCriteria = uporabnikiZrno.pridobiUporabnikeCriteria();
-        izpisi(out, uporabnikiCriteria);
+        uporabnikiZrno.pridobiUporabnike().stream().forEach(u -> out.append(u.toString() + "<br><br>"));
 
+        // printanje vseh artiklov
+        out.append("<br><h1>Artikli:</h1>");
+        artikliZrno.pridobiArtikle().stream().forEach(u -> out.append(u.toString() + "<br><br>"));
     }
 
     public static void izpisi(PrintWriter out, List<Uporabnik> uporabniki) {
@@ -50,5 +57,4 @@ public class JPAServlet extends HttpServlet {
             out.append("<br>");
         });
     }
-
 }
