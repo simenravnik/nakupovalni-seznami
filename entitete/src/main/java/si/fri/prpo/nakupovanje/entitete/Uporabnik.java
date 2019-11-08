@@ -94,4 +94,10 @@ public class Uporabnik {
     public void setNakupovalniSeznami(List<NakupovalniSeznam> nakupovalniSeznami) {
         this.nakupovalniSeznami = nakupovalniSeznami;
     }
+
+    @Override
+    public String toString() {
+        String res = "Name: " + this.getIme() + " " + this.getPriimek() + "<br>Mail: " + this.getEmail();
+        return res;
+    }
 }

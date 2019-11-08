@@ -6,19 +6,19 @@ import javax.persistence.*;
 @Table(name = "artikel")
 @NamedQueries(
         {
-                @NamedQuery(name = "artikel.getAll", query = "SELECT a FROM Artikel a"),
-                @NamedQuery(name = "artikel.getArtikelById",
+                @NamedQuery(name = "Artikel.getAll", query = "SELECT a FROM Artikel a"),
+                @NamedQuery(name = "Artikel.getArtikelById",
                         query = "SELECT a FROM Artikel a WHERE a.id = :id"),
-                @NamedQuery(name = "artikel.getArtikelByName",
+                @NamedQuery(name = "Artikel.getArtikelByName",
                         query = "SELECT a FROM Artikel a WHERE a.imeArtikla = :imeArtikla"),
-                @NamedQuery(name = "artikel.getArtikelForNakupovalniSeznam",
+                @NamedQuery(name = "Artikel.getArtikelForNakupovalniSeznam",
                         query = "SELECT a FROM Artikel a WHERE a.nakupovalniSeznam = :nakupovalniSeznam")
         })
 public class Artikel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "ime_artikla", length = 50, nullable = false, unique = false)
     private String imeArtikla;
@@ -27,11 +27,11 @@ public class Artikel {
     @JoinColumn(name = "nakupovalni_seznam_id")
     private NakupovalniSeznam nakupovalniSeznam;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -49,5 +49,11 @@ public class Artikel {
 
     public void setNakupovalniSeznam(NakupovalniSeznam nakupovalniSeznam) {
         this.nakupovalniSeznam = nakupovalniSeznam;
+    }
+
+    @Override
+    public String toString() {
+        String res = "ProductName: " + this.getImeArtikla() + " (" + this.getId() + ")" + "<br>ListName: " + this.getNakupovalniSeznam().getOpis();
+        return res;
     }
 }

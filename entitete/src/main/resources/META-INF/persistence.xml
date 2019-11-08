@@ -6,7 +6,6 @@
         <class>si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam</class>
         <class>si.fri.prpo.nakupovanje.entitete.Artikel</class>
         <class>si.fri.prpo.nakupovanje.entitete.Uporabnik</class>
-        <class>si.fri.prpo.nakupovanje.entitete.Oznaka</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

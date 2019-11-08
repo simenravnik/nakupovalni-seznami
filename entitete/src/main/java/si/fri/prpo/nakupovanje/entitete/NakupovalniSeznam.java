@@ -20,7 +20,7 @@ public class NakupovalniSeznam {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "naziv")
     private String naziv;
@@ -29,7 +29,7 @@ public class NakupovalniSeznam {
     private String opis;
 
     @Column(name = "ustvarjen")
-    private Instant ustvarjen;
+    private String ustvarjen;
 
     @ManyToOne
     @JoinColumn(name = "uporabnik_id")
@@ -38,11 +38,11 @@ public class NakupovalniSeznam {
     @OneToMany(mappedBy = "nakupovalniSeznam")
     private List<Artikel> artikli;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -62,11 +62,11 @@ public class NakupovalniSeznam {
         this.opis = opis;
     }
 
-    public Instant getUstvarjen() {
+    public String getUstvarjen() {
         return ustvarjen;
     }
 
-    public void setUstvarjen(Instant ustvarjen) {
+    public void setUstvarjen(String ustvarjen) {
         this.ustvarjen = ustvarjen;
     }
 
