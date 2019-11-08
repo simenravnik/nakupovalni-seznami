@@ -21,12 +21,13 @@ public class UporabnikiZrno {
     private EntityManager em;
 
     public List<Uporabnik> pridobiUporabnike() {
+        log.info("Pridobivam uporabnike.");
         List<Uporabnik> uporabniki = em.createNamedQuery("Uporabnik.getAll").getResultList();
-
         return uporabniki;
     }
 
     public List<Uporabnik> pridobiUporabnikeCriteria() {
+        log.info("Pridobivam uporabnike s Criteria API.");
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Uporabnik> cq =  cb.createQuery(Uporabnik.class);
         Root<Uporabnik> uporabnik = cq.from(Uporabnik.class);
