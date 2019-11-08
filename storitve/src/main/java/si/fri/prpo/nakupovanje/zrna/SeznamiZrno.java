@@ -5,10 +5,6 @@ import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,12 +17,8 @@ public class SeznamiZrno {
     private EntityManager em;
 
     public List<NakupovalniSeznam> pridobiSezname() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<NakupovalniSeznam> cq =  cb.createQuery(NakupovalniSeznam.class);
-        Root<NakupovalniSeznam> rootEntry = cq.from(NakupovalniSeznam.class);
-        CriteriaQuery<NakupovalniSeznam> all =  cq.select(rootEntry);
-        TypedQuery<NakupovalniSeznam> q = em.createQuery(all);
-        List<NakupovalniSeznam> seznami = q.getResultList();
+        log.info("Pridobivam sezname.");
+        List<NakupovalniSeznam> seznami = em.createNamedQuery("NakupovalniSeznam.getAll").getResultList();
         return seznami;
     }
 }

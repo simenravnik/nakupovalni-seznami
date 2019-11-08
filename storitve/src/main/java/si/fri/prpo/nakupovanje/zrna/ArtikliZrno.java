@@ -20,14 +20,8 @@ public class ArtikliZrno {
     private EntityManager em;
 
     public List<Artikel> pridobiArtikle() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Artikel> cq =  cb.createQuery(Artikel.class);
-        Root<Artikel> rootEntry = cq.from(Artikel.class);
-
-        CriteriaQuery<Artikel> all = cq.select(rootEntry);
-        TypedQuery<Artikel> q = em.createQuery(all);
-        List<Artikel> artikli = q.getResultList();
-
+        log.info("Pridobivam artikle.");
+        List<Artikel> artikli = em.createNamedQuery("Artikel.getAll").getResultList();
         return artikli;
     }
 }
