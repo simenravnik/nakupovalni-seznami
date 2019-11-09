@@ -50,7 +50,7 @@ public class ArtikelZrno {
     }
 
     @Transactional
-    public Artikel insertNakupovalniSeznam(Artikel artikel) {
+    public Artikel insertArtikel(Artikel artikel) {
 
         if(artikel != null) {
             em.persist(artikel);
@@ -61,7 +61,7 @@ public class ArtikelZrno {
     }
 
     @Transactional
-    public void updateNakupovalniSeznam(Long artikelId, Artikel artikel) {
+    public void updateArtikel(Long artikelId, Artikel artikel) {
 
         Artikel a = em.find(Artikel.class, artikelId);
 
@@ -71,7 +71,7 @@ public class ArtikelZrno {
     }
 
     @Transactional
-    public void deleteNakupovalniSeznam(Long artikelId) {
+    public void deleteArtikel(Long artikelId) {
 
         Artikel artikel = em.find(Artikel.class, artikelId);
 
