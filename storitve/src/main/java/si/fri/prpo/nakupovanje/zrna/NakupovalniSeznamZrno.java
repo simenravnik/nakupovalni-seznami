@@ -12,21 +12,21 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class NakupovalniSeznamiZrno {
+public class NakupovalniSeznamZrno {
 
-    private Logger log = Logger.getLogger(NakupovalniSeznamiZrno.class.getName());
+    private Logger log = Logger.getLogger(NakupovalniSeznamZrno.class.getName());
 
     @PostConstruct
     private void init() {
 
-        log.info("Inicializacija zrna " + NakupovalniSeznamiZrno.class.getSimpleName());
+        log.info("Inicializacija zrna " + NakupovalniSeznamZrno.class.getSimpleName());
 
     }
 
     @PreDestroy
     private void destroy() {
 
-        log.info("Deinicializacija zrna " + NakupovalniSeznamiZrno.class.getSimpleName());
+        log.info("Deinicializacija zrna " + NakupovalniSeznamZrno.class.getSimpleName());
 
     }
 

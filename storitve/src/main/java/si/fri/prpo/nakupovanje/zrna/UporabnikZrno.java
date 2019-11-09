@@ -14,21 +14,21 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class UporabnikiZrno {
+public class UporabnikZrno {
 
-    private Logger log = Logger.getLogger(UporabnikiZrno.class.getName());
+    private Logger log = Logger.getLogger(UporabnikZrno.class.getName());
 
     @PostConstruct
     private void init() {
 
-        log.info("Inicializacija zrna " + UporabnikiZrno.class.getSimpleName());
+        log.info("Inicializacija zrna " + UporabnikZrno.class.getSimpleName());
 
     }
 
     @PreDestroy
     private void destroy() {
 
-        log.info("Deinicializacija zrna " + UporabnikiZrno.class.getSimpleName());
+        log.info("Deinicializacija zrna " + UporabnikZrno.class.getSimpleName());
 
     }
 
