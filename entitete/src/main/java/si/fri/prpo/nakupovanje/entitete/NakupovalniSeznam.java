@@ -29,7 +29,7 @@ public class NakupovalniSeznam {
     private String opis;
 
     @Column(name = "ustvarjen")
-    private String ustvarjen;
+    private Instant ustvarjen;
 
     @ManyToOne
     @JoinColumn(name = "uporabnik_id")
@@ -62,11 +62,11 @@ public class NakupovalniSeznam {
         this.opis = opis;
     }
 
-    public String getUstvarjen() {
+    public Instant getUstvarjen() {
         return ustvarjen;
     }
 
-    public void setUstvarjen(String ustvarjen) {
+    public void setUstvarjen(Instant ustvarjen) {
         this.ustvarjen = ustvarjen;
     }
 
