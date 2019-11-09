@@ -7,6 +7,7 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,6 +38,46 @@ public class ArtikelZrno {
         List<Artikel> artikli = em.createNamedQuery("Artikel.getAll").getResultList();
 
         return artikli;
+
+    }
+
+    public Artikel pridobiArtikel(Long artikelId) {
+
+        Artikel artikel = em.find(Artikel.class, artikelId);
+
+        return artikel;
+
+    }
+
+    @Transactional
+    public Artikel insertNakupovalniSeznam(Artikel artikel) {
+
+        if(artikel != null) {
+            em.persist(artikel);
+        }
+
+        return artikel;
+
+    }
+
+    @Transactional
+    public void updateNakupovalniSeznam(Long artikelId, Artikel artikel) {
+
+        Artikel a = em.find(Artikel.class, artikelId);
+
+        artikel.setId(a.getId());
+        em.merge(artikel);
+
+    }
+
+    @Transactional
+    public void deleteNakupovalniSeznam(Long artikelId) {
+
+        Artikel artikel = em.find(Artikel.class, artikelId);
+
+        if(artikel != null) {
+            em.remove(artikel);
+        }
 
     }
 }
