@@ -1,6 +1,7 @@
 package si.fri.prpo.nakupovanje.zrna;
 
 import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
+import si.fri.prpo.nakupovanje.entitete.Uporabnik;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -46,6 +47,15 @@ public class NakupovalniSeznamZrno {
         NakupovalniSeznam nakupovalniSeznam = em.find(NakupovalniSeznam.class, nakupovalniSeznamId);
 
         return nakupovalniSeznam;
+
+    }
+
+    // return all shopping lists from a specific user
+    public List<NakupovalniSeznam> pridobiNakupovalneSeznameUporabnika(Uporabnik uporabnik) {
+
+        List<NakupovalniSeznam> nakupovalniSeznami = em.createNamedQuery("NakupovalniSeznam.getSeznamForUporabnik").setParameter("uporabnik", uporabnik).getResultList();
+
+        return nakupovalniSeznami;
 
     }
 

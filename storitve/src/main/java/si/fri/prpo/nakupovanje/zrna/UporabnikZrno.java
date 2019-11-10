@@ -43,6 +43,14 @@ public class UporabnikZrno {
 
     }
 
+    public List<Uporabnik> pridobiUporabnikaByUsername(String uporabniskoIme) {
+
+        List<Uporabnik> uporabniki = em.createNamedQuery("Uporabnik.getUporabnikByUsername").setParameter("uporabniskoIme",uporabniskoIme).getResultList();
+
+        return uporabniki;
+
+    }
+
     public List<Uporabnik> pridobiUporabnikeCriteria() {
 
         log.info("Pridobivam uporabnike s Criteria API.");

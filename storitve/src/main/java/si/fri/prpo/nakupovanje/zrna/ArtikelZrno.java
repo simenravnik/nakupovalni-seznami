@@ -1,6 +1,7 @@
 package si.fri.prpo.nakupovanje.zrna;
 
 import si.fri.prpo.nakupovanje.entitete.Artikel;
+import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -36,6 +37,14 @@ public class ArtikelZrno {
     public List<Artikel> pridobiArtikle() {
 
         List<Artikel> artikli = em.createNamedQuery("Artikel.getAll").getResultList();
+
+        return artikli;
+
+    }
+
+    public List<Artikel> pridobiArtikleSeznama(NakupovalniSeznam seznam) {
+
+        List<Artikel> artikli = em.createNamedQuery("Artikel.getArtikelForNakupovalniSeznam").setParameter("nakupovalniSeznam", seznam).getResultList();
 
         return artikli;
 

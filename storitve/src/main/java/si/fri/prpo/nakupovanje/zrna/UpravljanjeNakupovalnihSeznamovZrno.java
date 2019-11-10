@@ -88,15 +88,21 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     public Uporabnik ustvariUporabnika(UporabnikDto uporabnikDto) {
 
-        Uporabnik uporabnik = new Uporabnik();
+        if(uporabnikZrno.pridobiUporabnikaByUsername(uporabnikDto.getUporabniskoIme()).isEmpty()) {
+            Uporabnik uporabnik = new Uporabnik();
 
-        uporabnik.setIme(uporabnikDto.getIme());
-        uporabnik.setPriimek(uporabnikDto.getPriimek());
-        uporabnik.setEmail(uporabnikDto.getEmail());
-        uporabnik.setUporabniskoIme(uporabnikDto.getUporabniskoIme());
-        uporabnik.setGeslo(uporabnikDto.getGeslo());
+            uporabnik.setIme(uporabnikDto.getIme());
+            uporabnik.setPriimek(uporabnikDto.getPriimek());
+            uporabnik.setEmail(uporabnikDto.getEmail());
+            uporabnik.setUporabniskoIme(uporabnikDto.getUporabniskoIme());
+            uporabnik.setGeslo(uporabnikDto.getGeslo());
 
-        return uporabnikZrno.insertUporabnik(uporabnik);
+            return uporabnikZrno.insertUporabnik(uporabnik);
+
+        } else {
+            log.info("Uporabnik s tem uporabniskim imenom ze obstaja, kreiranje neuspesno.");
+            return null;
+        }
 
     }
 }
