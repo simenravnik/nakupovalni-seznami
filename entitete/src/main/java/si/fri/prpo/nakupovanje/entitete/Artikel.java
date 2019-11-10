@@ -53,7 +53,7 @@ public class Artikel {
 
     @Override
     public String toString() {
-        String res = "ProductName: " + this.getImeArtikla() + " (" + this.getId() + ")" + "<br>ListName: " + this.getNakupovalniSeznam().getOpis();
+        String res = "------" + this.getImeArtikla() + " (" + this.getId() + ") <br>";
         return res;
     }
 }

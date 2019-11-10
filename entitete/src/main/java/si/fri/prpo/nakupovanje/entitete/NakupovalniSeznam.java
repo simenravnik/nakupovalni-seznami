@@ -85,4 +85,10 @@ public class NakupovalniSeznam {
     public void setArtikli(List<Artikel> artikli) {
         this.artikli = artikli;
     }
+
+    @Override
+    public String toString() {
+        String res = "---" + this.getNaziv() + " (" + this.getId() + ") <br>";
+        return res;
+    }
 }

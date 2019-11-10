@@ -1,10 +1,9 @@
 package si.fri.prpo.nakupovanje.servleti;
 
+import si.fri.prpo.nakupovanje.entitete.Artikel;
 import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
+import si.fri.prpo.nakupovanje.zrna.*;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;
-import si.fri.prpo.nakupovanje.zrna.ArtikliZrno;
-import si.fri.prpo.nakupovanje.zrna.SeznamiZrno;
-import si.fri.prpo.nakupovanje.zrna.UporabnikiZrno;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -21,10 +20,22 @@ import java.util.logging.Logger;
 public class JPAServlet extends HttpServlet {
 
     @Inject
-    private UporabnikiZrno uporabnikiZrno;
+    private UpravljanjeNakupovalnihSeznamovZrno upravljanjeSeznamov;
 
     @Inject
-    private ArtikliZrno artikliZrno;
+    private UporabnikZrno uporabnikiZrno;
+
+    @Inject
+    private NakupovalniSeznamZrno nakupovalniSeznamZrno;
+
+    @Inject
+    private ArtikelZrno artikelZrno;
+
+    @Inject
+    private RequestScopedDemo requestScopedDemo;
+
+    @Inject
+    private ApplicationScopedDemo applicationScopedDemo;
 
     private static final Logger log = Logger.getLogger(JPAServlet.class.getName());
 
@@ -36,24 +47,44 @@ public class JPAServlet extends HttpServlet {
 
         PrintWriter out = resp.getWriter();
 
-        // printing the users
-        out.append("<br><h1>Uporabniki:</h1>");
-        uporabnikiZrno.pridobiUporabnike().stream().forEach(u -> out.append(u.toString() + "<br><br>"));
+        // Creating shopping list for user
+        NakupovalniSeznamDto nakupovalniSeznamDto = new NakupovalniSeznamDto(1L, "Fasunga", "Prinesi iz trgovine.");
+        upravljanjeSeznamov.ustvariNakupovalniSeznam(nakupovalniSeznamDto);
 
-        out.append("<br><h1>Uporabniki z Criteria api:</h1>");
-        uporabnikiZrno.pridobiUporabnike().stream().forEach(u -> out.append(u.toString() + "<br><br>"));
+        // Creating product for shopping list
+        ArtikelDto artikelDto = new ArtikelDto(2L, "RTX 2070");
+        upravljanjeSeznamov.ustvariArtikel(artikelDto);
 
-        // printanje vseh artiklov
-        out.append("<br><h1>Artikli:</h1>");
-        artikliZrno.pridobiArtikle().stream().forEach(u -> out.append(u.toString() + "<br><br>"));
+        // Creating new user
+        UporabnikDto uporabnikDto = new UporabnikDto("Mirko","Dostojevski","mirko.dosto12@hot.com","mirko13","noneofyourbusiness");
+        upravljanjeSeznamov.ustvariUporabnika(uporabnikDto);
+
+        // Creating shopping list for Mirko
+        NakupovalniSeznamDto nakupovalniSeznamDto2 = new NakupovalniSeznamDto(3L, "Mirko Stuff", "nevem.");
+        upravljanjeSeznamov.ustvariNakupovalniSeznam(nakupovalniSeznamDto2);
+
+        printDataBase(resp);
     }
 
-    public static void izpisi(PrintWriter out, List<Uporabnik> uporabniki) {
+    private void printDataBase(HttpServletResponse resp) throws IOException{
+        PrintWriter out = resp.getWriter();
+        // print all users
+        List<Uporabnik> uporabniki = uporabnikiZrno.pridobiUporabnike();
         uporabniki.forEach(u -> {
-            out.append("Ime: " + u.getIme() + "<br>");
-            out.append("Priimek: " + u.getPriimek() + "<br>");
-            out.append("Uporabnisko ime: " + u.getUporabniskoIme() + "<br>");
-            out.append("Email: " + u.getEmail() + "<br>");
+            out.append(u.toString());
+
+            // with all shopping lists
+            List<NakupovalniSeznam> seznami = nakupovalniSeznamZrno.pridobiNakupovalneSeznameUporabnika(u);
+            seznami.forEach(s -> {
+                out.append(s.toString());
+
+                // with all products
+                List<Artikel> artikli = artikelZrno.pridobiArtikleSeznama(s);
+                artikli.forEach(a -> {
+                    out.append(a.toString());
+                });
+            });
+
             out.append("<br>");
         });
     }

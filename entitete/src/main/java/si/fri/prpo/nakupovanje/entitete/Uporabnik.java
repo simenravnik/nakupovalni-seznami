@@ -97,7 +97,7 @@ public class Uporabnik {
 
     @Override
     public String toString() {
-        String res = "Name: " + this.getIme() + " " + this.getPriimek() + "<br>Mail: " + this.getEmail();
+        String res = this.getIme() + " " + this.getPriimek() + "(" + this.getId() + ") <br>";
         return res;
     }
 }
