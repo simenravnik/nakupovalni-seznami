@@ -1,5 +1,6 @@
 package si.fri.prpo.nakupovanje.zrna;
 
+import si.fri.prpo.nakupovanje.entitete.Artikel;
 import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;
 
@@ -22,6 +23,9 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     @Inject
     private NakupovalniSeznamZrno nakupovalniSeznamZrno;
+
+    @Inject
+    private ArtikelZrno artikelZrno;
 
     @PostConstruct
     private void init() {
@@ -59,6 +63,40 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
         nakupovalniSeznam.setUstvarjen(Instant.now());
 
         return nakupovalniSeznamZrno.insertNakupovalniSeznam(nakupovalniSeznam);
+
+    }
+
+    public Artikel ustvariArtikel(ArtikelDto artikelDto) {
+
+        NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(artikelDto.getSeznamId());
+
+        if (nakupovalniSeznam == null) {
+
+            log.info("Nakupovalni seznam ne obstaja. Ne morem ustvariti novega artikla.");
+            return null;
+
+        }
+
+        Artikel artikel = new Artikel();
+
+        artikel.setNakupovalniSeznam(nakupovalniSeznam);
+        artikel.setImeArtikla(artikelDto.getImeArtikla());
+
+        return artikelZrno.insertArtikel(artikel);
+
+    }
+
+    public Uporabnik ustvariUporabnika(UporabnikDto uporabnikDto) {
+
+        Uporabnik uporabnik = new Uporabnik();
+
+        uporabnik.setIme(uporabnikDto.getIme());
+        uporabnik.setPriimek(uporabnikDto.getPriimek());
+        uporabnik.setEmail(uporabnikDto.getEmail());
+        uporabnik.setUporabniskoIme(uporabnikDto.getUporabniskoIme());
+        uporabnik.setGeslo(uporabnikDto.getGeslo());
+
+        return uporabnikZrno.insertUporabnik(uporabnik);
 
     }
 }
