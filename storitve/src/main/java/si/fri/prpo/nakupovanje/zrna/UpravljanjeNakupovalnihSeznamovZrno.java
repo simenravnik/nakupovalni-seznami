@@ -1,5 +1,8 @@
 package si.fri.prpo.nakupovanje.zrna;
 
+import si.fri.prpo.nakupovanje.dto.ArtikelDto;
+import si.fri.prpo.nakupovanje.dto.NakupovalniSeznamDto;
+import si.fri.prpo.nakupovanje.dto.UporabnikDto;
 import si.fri.prpo.nakupovanje.entitete.Artikel;
 import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;

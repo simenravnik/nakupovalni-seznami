@@ -1,4 +1,4 @@
-package si.fri.prpo.nakupovanje.zrna;
+package si.fri.prpo.nakupovanje.dto;
 
 public class ArtikelDto {
 
