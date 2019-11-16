@@ -34,12 +34,6 @@ public class JPAServlet extends HttpServlet {
     @Inject
     private ArtikelZrno artikelZrno;
 
-    @Inject
-    private RequestScopedDemo requestScopedDemo;
-
-    @Inject
-    private ApplicationScopedDemo applicationScopedDemo;
-
     private static final Logger log = Logger.getLogger(JPAServlet.class.getName());
 
     @Override
@@ -49,6 +43,8 @@ public class JPAServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         PrintWriter out = resp.getWriter();
+
+        out.print("<h1>Nakupovalni seznami</h1>");
 
         // Creating shopping list for user
         NakupovalniSeznamDto nakupovalniSeznamDto = new NakupovalniSeznamDto(1L, "Fasunga", "Prinesi iz trgovine.");
