@@ -1,5 +1,6 @@
 package si.fri.prpo.nakupovanje.entitete;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 
 @Entity
@@ -23,6 +24,7 @@ public class Artikel {
     @Column(name = "ime_artikla", length = 50, nullable = false, unique = false)
     private String imeArtikla;
 
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "nakupovalni_seznam_id")
     private NakupovalniSeznam nakupovalniSeznam;

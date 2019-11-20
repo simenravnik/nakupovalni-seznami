@@ -1,5 +1,6 @@
 package si.fri.prpo.nakupovanje.entitete;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
@@ -31,6 +32,7 @@ public class NakupovalniSeznam {
     @Column(name = "ustvarjen")
     private Instant ustvarjen;
 
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "uporabnik_id")
     private Uporabnik uporabnik;
