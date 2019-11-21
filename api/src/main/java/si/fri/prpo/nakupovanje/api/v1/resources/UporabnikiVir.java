@@ -52,7 +52,7 @@ public class UporabnikiVir {
 
         if (uporabnikZrno.pridobiUporabnika(id) != null) {
             uporabnikZrno.updateUporabnik(id, uporabnik);
-            return Response.noContent().build();
+            return Response.status(Response.Status.OK).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -65,7 +65,7 @@ public class UporabnikiVir {
 
         if (uporabnikZrno.pridobiUporabnika(id) != null) {
             uporabnikZrno.deleteUporabnik(id);
-            return Response.noContent().build();
+            return Response.status(Response.Status.OK).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
