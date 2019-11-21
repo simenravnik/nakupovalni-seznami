@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.Instant;
+import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -69,6 +70,21 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     }
 
+    public List<NakupovalniSeznam> pridobiNakupovalniSeznameUporabnika(Long uporabnikId) {
+
+        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(uporabnikId);
+
+        if (uporabnik == null) {
+
+            log.info("Uporabnik ne obstaja. Ne morem vrniti nakupovalnega seznama.");
+            return null;
+
+        }
+
+        return nakupovalniSeznamZrno.pridobiNakupovalneSeznameUporabnika(uporabnik);
+
+    }
+
     public Artikel ustvariArtikel(ArtikelDto artikelDto) {
 
         NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(artikelDto.getSeznamId());
@@ -91,7 +107,7 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     public Uporabnik ustvariUporabnika(UporabnikDto uporabnikDto) {
 
-        if(uporabnikZrno.pridobiUporabnikaByUsername(uporabnikDto.getUporabniskoIme()).isEmpty()) {
+        if(uporabnikZrno.pridobiUporabnikaByUsername(uporabnikDto.getUporabniskoIme()) == null) {
             Uporabnik uporabnik = new Uporabnik();
 
             uporabnik.setIme(uporabnikDto.getIme());

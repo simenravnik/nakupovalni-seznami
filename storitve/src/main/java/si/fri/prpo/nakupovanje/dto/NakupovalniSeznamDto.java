@@ -8,6 +8,9 @@ public class NakupovalniSeznamDto {
 
     private String opis;
 
+    public NakupovalniSeznamDto() {
+    }
+
     public NakupovalniSeznamDto(Long uporabnikId, String naziv, String opis) {
         this.uporabnikId = uporabnikId;
         this.naziv = naziv;
