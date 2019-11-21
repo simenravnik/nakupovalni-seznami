@@ -25,19 +25,51 @@ public class UporabnikiVir {
 
     @GET
     @Path("{id}")
-    public Response pridobiUporabnika(@PathParam("id") long id) {
+    public Response pridobiUporabnika(@PathParam("id") Long id) {
 
         Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(id);
 
         if(uporabnik != null) {
             return Response.ok(uporabnik).build();
-        } else return Response.status(Response.Status.NOT_FOUND).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
 
     }
 
     @POST
     public Response dodajUporabnika(Uporabnik uporabnik) {
 
-        return Response.status(Response.Status.CREATED).entity(uporabnikZrno.insertUporabnik(uporabnik)).build();
+        return Response.status(Response.Status.CREATED)
+                .entity(uporabnikZrno.insertUporabnik(uporabnik))
+                .build();
+
     }
+
+    @PUT
+    @Path("{id}")
+    public Response posodobiUporabnika(@PathParam("id") Long id, Uporabnik uporabnik) {
+
+        if (uporabnikZrno.pridobiUporabnika(id) != null) {
+            uporabnikZrno.updateUporabnik(id, uporabnik);
+            return Response.noContent().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response odstraniUporabnika(@PathParam("id") Long id) {
+
+        if (uporabnikZrno.pridobiUporabnika(id) != null) {
+            uporabnikZrno.deleteUporabnik(id);
+            return Response.noContent().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+    }
+
 }
