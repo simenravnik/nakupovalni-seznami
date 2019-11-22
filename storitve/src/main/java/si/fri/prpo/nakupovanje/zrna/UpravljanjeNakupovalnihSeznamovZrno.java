@@ -85,6 +85,30 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     }
 
+    public NakupovalniSeznam pridobiNakupovalniSeznamUporabnika(Long uporabnikId, Integer seznamId) {
+
+        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(uporabnikId);
+
+        if (uporabnik == null) {
+
+            log.info("Uporabnik ne obstaja. Ne morem vrniti nakupovalnega seznama.");
+            return null;
+
+        }
+
+        if (uporabnik.getNakupovalniSeznami().size() < seznamId || seznamId < 1) {
+
+            log.info("Nakupovalni seznam " + seznamId +  " uporabnika " + uporabnik.getIme() + " ne obstaja. Ne morem odstraniti nakupovalnega seznama.");
+            return null;
+
+        }
+
+        NakupovalniSeznam nakupovalniSeznam = uporabnik.getNakupovalniSeznami().get(seznamId-1);
+
+        return nakupovalniSeznam;
+
+    }
+
     public NakupovalniSeznam posodobiNakupovalniSeznam(Long uporabnikId, Integer seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
 
         Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(uporabnikId);
@@ -118,8 +142,6 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
         Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(uporabnikId);
 
-        log.info(uporabnik.getIme());
-
         if (uporabnik == null) {
 
             log.info("Uporabnik ne obstaja. Ne morem ustvariti novega nakupovalnega seznama.");
@@ -127,16 +149,14 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
         }
 
-        List<NakupovalniSeznam> nakupovalniSeznami = uporabnik.getNakupovalniSeznami();
-
-        if (nakupovalniSeznami.size() < seznamId || seznamId < 1) {
+        if (uporabnik.getNakupovalniSeznami().size() < seznamId || seznamId < 1) {
 
             log.info("Nakupovalni seznam " + seznamId +  " uporabnika " + uporabnik.getIme() + " ne obstaja. Ne morem odstraniti nakupovalnega seznama.");
             return null;
 
         }
 
-        NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznami.get(seznamId-1);
+        NakupovalniSeznam nakupovalniSeznam = uporabnik.getNakupovalniSeznami().get(seznamId-1);
 
         nakupovalniSeznamZrno.deleteNakupovalniSeznam(nakupovalniSeznam.getId());
 

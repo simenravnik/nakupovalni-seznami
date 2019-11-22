@@ -29,6 +29,14 @@ public class NakupovalniSeznamiVir {
 
     }
 
+    @GET
+    @Path("uporabnik/{uporabnikId}/seznam/{seznamId}")
+    public Response pridobiNakupovalniSeznamUporabnika(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
+
+        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznameUporabnika(uporabnikId)).build();
+
+    }
+
     @POST
     public Response dodajNakupovalniSeznamUporabniku(NakupovalniSeznamDto nakupovalniSeznamDto) {
 
