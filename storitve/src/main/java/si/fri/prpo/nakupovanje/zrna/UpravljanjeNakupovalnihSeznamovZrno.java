@@ -93,6 +93,35 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     }
 
+    public NakupovalniSeznam posodobiNakupovalniSeznam(Long uporabnikId, Integer seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
+
+        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(uporabnikId);
+
+        if (uporabnik == null) {
+
+            log.info("Uporabnik ne obstaja. Ne morem ustvariti novega nakupovalnega seznama.");
+            return null;
+
+        }
+
+        if (uporabnik.getNakupovalniSeznami().size() < seznamId || seznamId < 1) {
+
+            log.info("Nakupovalni seznam " + nakupovalniSeznamDto.getNaziv() + " uporabnika " + uporabnik.getIme() + " ne obstaja. Ne morem posodobiti nakupovalnega seznama.");
+            return null;
+
+        }
+
+        NakupovalniSeznam nakupovalniSeznam = uporabnik.getNakupovalniSeznami().get(seznamId-1);
+
+        nakupovalniSeznam.setNaziv(nakupovalniSeznamDto.getNaziv());
+        nakupovalniSeznam.setOpis(nakupovalniSeznamDto.getOpis());
+
+        uporabnikZrno.updateUporabnik(uporabnik.getId(), uporabnik);
+
+        return nakupovalniSeznam;
+
+    }
+
     public Artikel ustvariArtikel(ArtikelDto artikelDto) {
 
         NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(artikelDto.getSeznamId());

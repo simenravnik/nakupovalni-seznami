@@ -35,4 +35,12 @@ public class NakupovalniSeznamiVir {
         return Response.ok(upravljanjeNakupovalnihSeznamovZrno.ustvariNakupovalniSeznam(nakupovalniSeznamDto)).build();
 
     }
+
+    @PUT
+    @Path("uporabnik/{uporabnikId}/seznam/{seznamId}")
+    public Response posodobiNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
+
+        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(uporabnikId, seznamId, nakupovalniSeznamDto)).build();
+
+    }
 }
