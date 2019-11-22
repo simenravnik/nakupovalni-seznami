@@ -66,7 +66,15 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
         nakupovalniSeznam.setOpis(nakupovalniSeznamDto.getOpis());
         nakupovalniSeznam.setUstvarjen(Instant.now());
 
-        return nakupovalniSeznamZrno.insertNakupovalniSeznam(nakupovalniSeznam);
+
+        List<NakupovalniSeznam> nakupovalniSeznamiUporabnika = uporabnik.getNakupovalniSeznami();
+        nakupovalniSeznamiUporabnika.add(nakupovalniSeznam);
+
+        uporabnik.setNakupovalniSeznami(nakupovalniSeznamiUporabnika);
+
+        uporabnikZrno.updateUporabnik(uporabnik.getId(), uporabnik);
+
+        return nakupovalniSeznam;
 
     }
 
