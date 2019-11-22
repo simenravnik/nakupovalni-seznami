@@ -6,6 +6,7 @@ import si.fri.prpo.nakupovanje.entitete.Uporabnik;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -33,6 +34,9 @@ public class NakupovalniSeznamZrno {
 
     @PersistenceContext(unitName = "nakupovalni-seznami-jpa")
     private EntityManager em;
+
+    @Inject
+    private UporabnikZrno uporabnikZrno;
 
     public List<NakupovalniSeznam> pridobiNakupovalneSezname() {
 
@@ -63,6 +67,10 @@ public class NakupovalniSeznamZrno {
     public NakupovalniSeznam insertNakupovalniSeznam(NakupovalniSeznam nakupovalniSeznam) {
 
         if(nakupovalniSeznam != null) {
+
+            Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(nakupovalniSeznam.getUporabnik().getId());
+            uporabnik.addNakupovalniSeznam(nakupovalniSeznam);  // updating list of uporabnik
+
             em.persist(nakupovalniSeznam);
         }
 
@@ -72,6 +80,9 @@ public class NakupovalniSeznamZrno {
 
     @Transactional
     public void updateNakupovalniSeznam(Long nakupovalniSeznamId, NakupovalniSeznam nakupovalniSeznam) {
+
+        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(nakupovalniSeznam.getUporabnik().getId());
+        uporabnik.updateNakupovalniSeznam(nakupovalniSeznamId, nakupovalniSeznam);
 
         NakupovalniSeznam ns = em.find(NakupovalniSeznam.class, nakupovalniSeznamId);
 
@@ -84,6 +95,9 @@ public class NakupovalniSeznamZrno {
     public void deleteNakupovalniSeznam(Long nakupovalniSeznamId) {
 
         NakupovalniSeznam nakupovalniSeznam = em.find(NakupovalniSeznam.class, nakupovalniSeznamId);
+
+        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(nakupovalniSeznam.getUporabnik().getId());
+        uporabnik.removeNakupovalniSeznam(nakupovalniSeznam);
 
         if(nakupovalniSeznam != null) {
             em.remove(nakupovalniSeznam);

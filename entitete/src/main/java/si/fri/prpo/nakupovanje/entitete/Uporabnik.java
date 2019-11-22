@@ -36,8 +36,25 @@ public class Uporabnik {
     @Column(name="geslo", length=50, nullable=false, unique=false)
     private String geslo;
 
-    @OneToMany(mappedBy = "uporabnik", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "uporabnik", fetch = FetchType.LAZY)
     private List<NakupovalniSeznam> nakupovalniSeznami;
+
+    public void addNakupovalniSeznam(NakupovalniSeznam nakupovalniSeznam) {
+        nakupovalniSeznami.add(nakupovalniSeznam);
+    }
+
+    public void updateNakupovalniSeznam(Long nakupovalniSeznamId, NakupovalniSeznam nakupovalniSeznam) {
+        for (NakupovalniSeznam ns : nakupovalniSeznami) {
+            if (ns.getId() == nakupovalniSeznamId) {
+                nakupovalniSeznami.set(nakupovalniSeznami.indexOf(ns), nakupovalniSeznam);
+                break;
+            }
+        }
+    }
+
+    public void removeNakupovalniSeznam(NakupovalniSeznam nakupovalniSeznam) {
+        nakupovalniSeznami.remove(nakupovalniSeznam);
+    }
 
     public Long getId() {
         return id;

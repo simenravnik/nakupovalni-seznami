@@ -33,11 +33,11 @@ public class NakupovalniSeznam {
     private Instant ustvarjen;
 
     @JsonbTransient
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uporabnik_id")
     private Uporabnik uporabnik;
 
-    @OneToMany(mappedBy = "nakupovalniSeznam")
+    @OneToMany(mappedBy = "nakupovalniSeznam", cascade = CascadeType.ALL)
     private List<Artikel> artikli;
 
     public Long getId() {

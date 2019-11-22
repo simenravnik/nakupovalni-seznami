@@ -43,4 +43,12 @@ public class NakupovalniSeznamiVir {
         return Response.ok(upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(uporabnikId, seznamId, nakupovalniSeznamDto)).build();
 
     }
+
+    @DELETE
+    @Path("uporabnik/{uporabnikId}/seznam/{seznamId}")
+    public Response odstraniNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
+
+        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.odstraniNakupovalniSeznam(uporabnikId, seznamId)).build();
+
+    }
 }

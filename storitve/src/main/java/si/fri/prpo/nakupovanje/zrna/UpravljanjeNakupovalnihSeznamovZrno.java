@@ -66,15 +66,7 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
         nakupovalniSeznam.setOpis(nakupovalniSeznamDto.getOpis());
         nakupovalniSeznam.setUstvarjen(Instant.now());
 
-
-        List<NakupovalniSeznam> nakupovalniSeznamiUporabnika = uporabnik.getNakupovalniSeznami();
-        nakupovalniSeznamiUporabnika.add(nakupovalniSeznam);
-
-        uporabnik.setNakupovalniSeznami(nakupovalniSeznamiUporabnika);
-
-        uporabnikZrno.updateUporabnik(uporabnik.getId(), uporabnik);
-
-        return nakupovalniSeznam;
+        return nakupovalniSeznamZrno.insertNakupovalniSeznam(nakupovalniSeznam);
 
     }
 
@@ -116,7 +108,37 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
         nakupovalniSeznam.setNaziv(nakupovalniSeznamDto.getNaziv());
         nakupovalniSeznam.setOpis(nakupovalniSeznamDto.getOpis());
 
-        uporabnikZrno.updateUporabnik(uporabnik.getId(), uporabnik);
+        nakupovalniSeznamZrno.updateNakupovalniSeznam(nakupovalniSeznam.getId(), nakupovalniSeznam);
+
+        return nakupovalniSeznam;
+
+    }
+
+    public NakupovalniSeznam odstraniNakupovalniSeznam(Long uporabnikId, Integer seznamId) {
+
+        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(uporabnikId);
+
+        log.info(uporabnik.getIme());
+
+        if (uporabnik == null) {
+
+            log.info("Uporabnik ne obstaja. Ne morem ustvariti novega nakupovalnega seznama.");
+            return null;
+
+        }
+
+        List<NakupovalniSeznam> nakupovalniSeznami = uporabnik.getNakupovalniSeznami();
+
+        if (nakupovalniSeznami.size() < seznamId || seznamId < 1) {
+
+            log.info("Nakupovalni seznam " + seznamId +  " uporabnika " + uporabnik.getIme() + " ne obstaja. Ne morem odstraniti nakupovalnega seznama.");
+            return null;
+
+        }
+
+        NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznami.get(seznamId-1);
+
+        nakupovalniSeznamZrno.deleteNakupovalniSeznam(nakupovalniSeznam.getId());
 
         return nakupovalniSeznam;
 
