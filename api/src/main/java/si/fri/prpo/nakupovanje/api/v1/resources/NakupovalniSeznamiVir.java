@@ -22,7 +22,7 @@ public class NakupovalniSeznamiVir {
     private UpravljanjeNakupovalnihSeznamovZrno upravljanjeNakupovalnihSeznamovZrno;
 
     @GET
-    @Path("uporabnik/{id}")
+    @Path("uporabniki/{id}")
     public Response pridobiNakupovalneSeznameUporabnika(@PathParam("id") Long uporabnikId) {
 
         return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznameUporabnika(uporabnikId)).build();
@@ -30,10 +30,26 @@ public class NakupovalniSeznamiVir {
     }
 
     @GET
-    @Path("uporabnik/{uporabnikId}/seznam/{seznamId}")
+    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
     public Response pridobiNakupovalniSeznamUporabnika(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznameUporabnika(uporabnikId)).build();
+        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId)).build();
+
+    }
+
+    @GET
+    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}/artikli")
+    public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
+
+        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiArtikleNakupovalnegaSeznama(uporabnikId, seznamId)).build();
+
+    }
+
+    @GET
+    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}/artikli/{artikelId}")
+    public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId, @PathParam("artikelId") Integer artikelId) {
+
+        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiArtikelNakupovalnegaSeznama(uporabnikId, seznamId, artikelId)).build();
 
     }
 
@@ -45,7 +61,7 @@ public class NakupovalniSeznamiVir {
     }
 
     @PUT
-    @Path("uporabnik/{uporabnikId}/seznam/{seznamId}")
+    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
     public Response posodobiNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
 
         return Response.ok(upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(uporabnikId, seznamId, nakupovalniSeznamDto)).build();
@@ -53,7 +69,7 @@ public class NakupovalniSeznamiVir {
     }
 
     @DELETE
-    @Path("uporabnik/{uporabnikId}/seznam/{seznamId}")
+    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
     public Response odstraniNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
         return Response.ok(upravljanjeNakupovalnihSeznamovZrno.odstraniNakupovalniSeznam(uporabnikId, seznamId)).build();

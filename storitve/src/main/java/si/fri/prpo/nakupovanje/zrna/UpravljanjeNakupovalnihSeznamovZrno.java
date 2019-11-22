@@ -164,6 +164,39 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     }
 
+    public List<Artikel> pridobiArtikleNakupovalnegaSeznama(Long uporabnikId, Integer seznamId) {
+
+        NakupovalniSeznam nakupovalniSeznam = pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
+
+        if (nakupovalniSeznam == null) {
+            log.info("Nakupovalni seznam ne obstaja");
+            return null;
+        }
+
+        return nakupovalniSeznam.getArtikli();
+
+    }
+
+    public Object pridobiArtikelNakupovalnegaSeznama(Long uporabnikId, Integer seznamId, Integer artikelId) {
+
+        NakupovalniSeznam nakupovalniSeznam = pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
+
+        if (nakupovalniSeznam == null) {
+            log.info("Nakupovalni seznam ne obstaja");
+            return null;
+        }
+
+        List<Artikel> artikli =  nakupovalniSeznam.getArtikli();
+
+        if (artikli.size() < artikelId || artikelId < 1) {
+            log.info("Artikel " + artikelId +  " uporabnika " + nakupovalniSeznam.getUporabnik().getIme() + " ne obstaja. Ne morem vrniti artikla.");
+            return null;
+        }
+
+        return artikli.get(artikelId-1);
+
+    }
+
     public Artikel ustvariArtikel(ArtikelDto artikelDto) {
 
         NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(artikelDto.getSeznamId());
