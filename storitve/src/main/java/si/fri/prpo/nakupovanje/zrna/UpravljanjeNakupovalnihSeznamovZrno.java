@@ -1,5 +1,6 @@
 package si.fri.prpo.nakupovanje.zrna;
 
+import si.fri.prpo.nakupovanje.anotacija.BeleziKlice;
 import si.fri.prpo.nakupovanje.dto.ArtikelDto;
 import si.fri.prpo.nakupovanje.dto.NakupovalniSeznamDto;
 import si.fri.prpo.nakupovanje.dto.UporabnikDto;
@@ -197,6 +198,7 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     }
 
+    @BeleziKlice
     public Artikel ustvariArtikel(ArtikelDto artikelDto) {
 
         NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(artikelDto.getSeznamId());
