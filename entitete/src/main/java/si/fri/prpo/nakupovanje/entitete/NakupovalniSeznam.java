@@ -40,6 +40,23 @@ public class NakupovalniSeznam {
     @OneToMany(mappedBy = "nakupovalniSeznam", cascade = CascadeType.ALL)
     private List<Artikel> artikli;
 
+    public void addArtikel(Artikel artikel) {
+        artikli.add(artikel);
+    }
+
+    public void updateArtikel(Long artikelId, Artikel artikel) {
+        for (Artikel a : artikli) {
+            if (a.getId() == artikelId) {
+                artikli.set(artikli.indexOf(a), artikel);
+                break;
+            }
+        }
+    }
+
+    public void removeArtikel(Artikel artikel) {
+        artikli.remove(artikel);
+    }
+
     public Long getId() {
         return id;
     }
