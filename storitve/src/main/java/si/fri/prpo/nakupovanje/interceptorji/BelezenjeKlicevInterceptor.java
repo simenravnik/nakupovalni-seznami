@@ -1,4 +1,7 @@
-package si.fri.prpo.nakupovanje.anotacija;
+package si.fri.prpo.nakupovanje.interceptorji;
+
+import si.fri.prpo.nakupovanje.zrna.BelezenjeKlicevZrno;
+import si.fri.prpo.nakupovanje.anotacije.BeleziKlice;
 
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;

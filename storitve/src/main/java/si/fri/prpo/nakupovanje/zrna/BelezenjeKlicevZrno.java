@@ -1,4 +1,4 @@
-package si.fri.prpo.nakupovanje.anotacija;
+package si.fri.prpo.nakupovanje.zrna;
 
 import si.fri.prpo.nakupovanje.zrna.UporabnikZrno;
 
@@ -14,14 +14,14 @@ public class BelezenjeKlicevZrno {
     @PostConstruct
     private void init() {
 
-        log.info("Inicializacija zrna " + UporabnikZrno.class.getSimpleName());
+        log.info("Inicializacija zrna " + BelezenjeKlicevZrno.class.getSimpleName());
 
     }
 
     @PreDestroy
     private void destroy() {
 
-        log.info("Deinicializacija zrna " + UporabnikZrno.class.getSimpleName());
+        log.info("Deinicializacija zrna " + BelezenjeKlicevZrno.class.getSimpleName());
 
     }
 

@@ -1,4 +1,4 @@
-package si.fri.prpo.nakupovanje.anotacija;
+package si.fri.prpo.nakupovanje.anotacije;
 
 import javax.interceptor.InterceptorBinding;
 import java.lang.annotation.ElementType;
