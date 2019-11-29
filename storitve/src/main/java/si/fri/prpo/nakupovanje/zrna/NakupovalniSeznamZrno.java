@@ -81,10 +81,10 @@ public class NakupovalniSeznamZrno {
     @Transactional
     public void updateNakupovalniSeznam(Long nakupovalniSeznamId, NakupovalniSeznam nakupovalniSeznam) {
 
-        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(nakupovalniSeznam.getUporabnik().getId());
-        uporabnik.updateNakupovalniSeznam(nakupovalniSeznamId, nakupovalniSeznam);
-
         NakupovalniSeznam ns = em.find(NakupovalniSeznam.class, nakupovalniSeznamId);
+
+        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(ns.getUporabnik().getId());
+        uporabnik.updateNakupovalniSeznam(nakupovalniSeznamId, ns);
 
         nakupovalniSeznam.setId(ns.getId());
         em.merge(nakupovalniSeznam);
