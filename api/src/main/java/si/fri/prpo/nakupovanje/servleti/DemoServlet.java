@@ -1,7 +1,7 @@
 package si.fri.prpo.nakupovanje.servleti;
 
-import si.fri.prpo.nakupovanje.zrna.ApplicationScopedDemo;
-import si.fri.prpo.nakupovanje.zrna.RequestScopedDemo;
+import si.fri.prpo.nakupovanje.zrna.demo.ApplicationScopedDemo;
+import si.fri.prpo.nakupovanje.zrna.demo.RequestScopedDemo;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;

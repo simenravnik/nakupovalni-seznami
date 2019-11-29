@@ -34,6 +34,9 @@ public class JPAServlet extends HttpServlet {
     @Inject
     private ArtikelZrno artikelZrno;
 
+    @Inject
+    private UpravljanjeArtiklovZrno upravljanjeArtiklovZrno;
+
     private static final Logger log = Logger.getLogger(JPAServlet.class.getName());
 
     @Override
@@ -51,8 +54,8 @@ public class JPAServlet extends HttpServlet {
         upravljanjeSeznamov.ustvariNakupovalniSeznam(nakupovalniSeznamDto);
 
         // Creating product for shopping list
-        ArtikelDto artikelDto = new ArtikelDto(2L, "RTX 2070");
-        upravljanjeSeznamov.ustvariArtikel(artikelDto);
+        ArtikelDto artikelDto = new ArtikelDto(1, "RTX 2070");
+        upravljanjeArtiklovZrno.ustvariArtikel(1L, artikelDto);
 
         // Creating new user
         UporabnikDto uporabnikDto = new UporabnikDto("Mirko","Dostojevski","mirko.dosto12@hot.com","mirko13","noneofyourbusiness");
@@ -63,6 +66,15 @@ public class JPAServlet extends HttpServlet {
         upravljanjeSeznamov.ustvariNakupovalniSeznam(nakupovalniSeznamDto2);
 
         printDataBase(resp);
+
+        out.print("<hr>");
+
+        Uporabnik petra = uporabnikiZrno.pridobiUporabnika(1L);
+
+        for (int i = 0; i < petra.getNakupovalniSeznami().size(); i++) {
+            out.print(petra.getNakupovalniSeznami().get(i).getNaziv() + "<br>");
+        }
+
     }
 
     private void printDataBase(HttpServletResponse resp) throws IOException{
