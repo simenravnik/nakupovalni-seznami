@@ -1,5 +1,6 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
+import si.fri.prpo.nakupovanje.dto.ArtikelDto;
 import si.fri.prpo.nakupovanje.dto.NakupovalniSeznamDto;
 import si.fri.prpo.nakupovanje.zrna.UpravljanjeNakupovalnihSeznamovZrno;
 
@@ -34,22 +35,6 @@ public class NakupovalniSeznamiVir {
     public Response pridobiNakupovalniSeznamUporabnika(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
         return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId)).build();
-
-    }
-
-    @GET
-    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}/artikli")
-    public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
-
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiArtikleNakupovalnegaSeznama(uporabnikId, seznamId)).build();
-
-    }
-
-    @GET
-    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}/artikli/{artikelId}")
-    public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId, @PathParam("artikelId") Integer artikelId) {
-
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiArtikelNakupovalnegaSeznama(uporabnikId, seznamId, artikelId)).build();
 
     }
 
