@@ -6,6 +6,7 @@ import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -33,6 +34,9 @@ public class ArtikelZrno {
 
     @PersistenceContext(unitName = "nakupovalni-seznami-jpa")
     private EntityManager em;
+
+    @Inject
+    private NakupovalniSeznamZrno nakupovalniSeznamZrno;
 
     public List<Artikel> pridobiArtikle() {
 
@@ -62,6 +66,10 @@ public class ArtikelZrno {
     public Artikel insertArtikel(Artikel artikel) {
 
         if(artikel != null) {
+
+            NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(artikel.getNakupovalniSeznam().getId());
+            nakupovalniSeznam.addArtikel(artikel); // updating list of nakupovalniSeznam
+
             em.persist(artikel);
         }
 
@@ -74,6 +82,9 @@ public class ArtikelZrno {
 
         Artikel a = em.find(Artikel.class, artikelId);
 
+        NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(a.getNakupovalniSeznam().getId());
+        nakupovalniSeznam.updateArtikel(artikelId, a); // updating list of nakupovalniSeznam
+
         artikel.setId(a.getId());
         em.merge(artikel);
 
@@ -83,6 +94,9 @@ public class ArtikelZrno {
     public void deleteArtikel(Long artikelId) {
 
         Artikel artikel = em.find(Artikel.class, artikelId);
+
+        NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(artikel.getNakupovalniSeznam().getId());
+        nakupovalniSeznam.removeArtikel(artikel); // updating list of nakupovalniSeznam
 
         if(artikel != null) {
             em.remove(artikel);

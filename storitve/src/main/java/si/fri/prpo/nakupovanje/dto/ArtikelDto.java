@@ -2,19 +2,21 @@ package si.fri.prpo.nakupovanje.dto;
 
 public class ArtikelDto {
 
-    private Long seznamId;
+    private Integer seznamId;
     private String imeArtikla;
 
-    public ArtikelDto(Long seznamId, String imeArtikla) {
+    public ArtikelDto() {}
+
+    public ArtikelDto(Integer seznamId, String imeArtikla) {
         this.seznamId = seznamId;
         this.imeArtikla = imeArtikla;
     }
 
-    public Long getSeznamId() {
+    public Integer getSeznamId() {
         return seznamId;
     }
 
-    public void setSeznamId(Long seznamId) {
+    public void setSeznamId(Integer seznamId) {
         this.seznamId = seznamId;
     }
 

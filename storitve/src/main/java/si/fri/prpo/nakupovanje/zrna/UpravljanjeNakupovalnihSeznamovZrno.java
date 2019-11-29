@@ -178,7 +178,7 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     }
 
-    public Object pridobiArtikelNakupovalnegaSeznama(Long uporabnikId, Integer seznamId, Integer artikelId) {
+    public Artikel pridobiArtikelNakupovalnegaSeznama(Long uporabnikId, Integer seznamId, Integer artikelId) {
 
         NakupovalniSeznam nakupovalniSeznam = pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
 
@@ -199,15 +199,13 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
     }
 
     @BeleziKlice
-    public Artikel ustvariArtikel(ArtikelDto artikelDto) {
+    public Artikel ustvariArtikel(Long uporabnikId, ArtikelDto artikelDto) {
 
-        NakupovalniSeznam nakupovalniSeznam = nakupovalniSeznamZrno.pridobiNakupovalniSeznam(artikelDto.getSeznamId());
+        NakupovalniSeznam nakupovalniSeznam = pridobiNakupovalniSeznamUporabnika(uporabnikId, artikelDto.getSeznamId());
 
         if (nakupovalniSeznam == null) {
-
-            log.info("Nakupovalni seznam ne obstaja. Ne morem ustvariti novega artikla.");
+            log.info("Nakupovalni seznam ne obstaja");
             return null;
-
         }
 
         Artikel artikel = new Artikel();
@@ -216,6 +214,53 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
         artikel.setImeArtikla(artikelDto.getImeArtikla());
 
         return artikelZrno.insertArtikel(artikel);
+
+    }
+
+    public Artikel posodobiArtikel(Integer artikelId, Long uporabnikId, ArtikelDto artikelDto) {
+
+        NakupovalniSeznam nakupovalniSeznam = pridobiNakupovalniSeznamUporabnika(uporabnikId, artikelDto.getSeznamId());
+
+        if (nakupovalniSeznam == null) {
+            log.info("Nakupovalni seznam ne obstaja");
+            return null;
+        }
+
+        Artikel artikel = pridobiArtikelNakupovalnegaSeznama(uporabnikId, artikelDto.getSeznamId(), artikelId);
+
+        if (artikel == null) {
+            log.info("Artikel " + artikelId + ", nakupovalnega seznama " + artikelDto.getSeznamId() +  " ne obstaja.");
+            return null;
+        }
+
+        artikel.setNakupovalniSeznam(nakupovalniSeznam);
+        artikel.setImeArtikla(artikelDto.getImeArtikla());
+
+        artikelZrno.updateArtikel(artikel.getId(), artikel);
+
+        return artikel;
+
+    }
+
+    public Artikel odstraniArtikel(Integer artikelId, Long uporabnikId, Integer seznamId) {
+
+        NakupovalniSeznam nakupovalniSeznam = pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
+
+        if (nakupovalniSeznam == null) {
+            log.info("Nakupovalni seznam ne obstaja");
+            return null;
+        }
+
+        Artikel artikel = pridobiArtikelNakupovalnegaSeznama(uporabnikId, seznamId, artikelId);
+
+        if (artikel == null) {
+            log.info("Artikel " + artikelId + ", nakupovalnega seznama " + seznamId +  " ne obstaja.");
+            return null;
+        }
+
+        artikelZrno.deleteArtikel(artikel.getId());
+
+        return artikel;
 
     }
 
