@@ -1,7 +1,7 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
-import si.fri.prpo.nakupovanje.dto.ArtikelDto;
 import si.fri.prpo.nakupovanje.dto.NakupovalniSeznamDto;
+import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import si.fri.prpo.nakupovanje.zrna.UpravljanjeNakupovalnihSeznamovZrno;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -34,22 +34,39 @@ public class NakupovalniSeznamiVir {
     @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
     public Response pridobiNakupovalniSeznamUporabnika(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId)).build();
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
+
+        if(nakupovalniSeznam != null) {
+            return Response.ok(nakupovalniSeznam).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
 
     }
 
     @POST
     public Response dodajNakupovalniSeznamUporabniku(NakupovalniSeznamDto nakupovalniSeznamDto) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.ustvariNakupovalniSeznam(nakupovalniSeznamDto)).build();
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.ustvariNakupovalniSeznam(nakupovalniSeznamDto);
 
+        if (nakupovalniSeznam != null) {
+            return Response.ok(nakupovalniSeznam).build();
+        } else {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
     }
 
     @PUT
     @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
     public Response posodobiNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(uporabnikId, seznamId, nakupovalniSeznamDto)).build();
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(uporabnikId, seznamId, nakupovalniSeznamDto);
+
+        if (nakupovalniSeznam != null) {
+            return Response.ok(nakupovalniSeznam).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
 
     }
 
@@ -57,7 +74,13 @@ public class NakupovalniSeznamiVir {
     @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
     public Response odstraniNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.odstraniNakupovalniSeznam(uporabnikId, seznamId)).build();
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.odstraniNakupovalniSeznam(uporabnikId, seznamId);
+
+        if (nakupovalniSeznam != null) {
+            return Response.ok(nakupovalniSeznam).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
 
     }
 }

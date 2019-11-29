@@ -1,6 +1,7 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
 import si.fri.prpo.nakupovanje.dto.ArtikelDto;
+import si.fri.prpo.nakupovanje.entitete.Artikel;
 import si.fri.prpo.nakupovanje.zrna.UpravljanjeNakupovalnihSeznamovZrno;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -30,7 +31,13 @@ public class ArtikliVir {
     @Path("/{artikelId}/uporabniki/{uporabnikId}/seznami/{seznamId}/")
     public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("artikelId") Integer artikelId, @PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiArtikelNakupovalnegaSeznama(uporabnikId, seznamId, artikelId)).build();
+        Artikel artikel = upravljanjeNakupovalnihSeznamovZrno.pridobiArtikelNakupovalnegaSeznama(uporabnikId, seznamId, artikelId);
+
+        if(artikel != null) {
+            return Response.ok(artikel).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
 
     }
 
@@ -38,7 +45,13 @@ public class ArtikliVir {
     @Path("/uporabniki/{uporabnikId}")
     public Response dodajArtikelNakupovalnemuSeznamuUporabnika(@PathParam("uporabnikId") Long uporabnikId, ArtikelDto artikelDto) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.ustvariArtikel(uporabnikId, artikelDto)).build();
+        Artikel artikel = upravljanjeNakupovalnihSeznamovZrno.ustvariArtikel(uporabnikId, artikelDto);
+
+        if(artikel != null) {
+            return Response.ok(artikel).build();
+        } else {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
 
     }
 
@@ -46,7 +59,13 @@ public class ArtikliVir {
     @Path("/{artikelId}/uporabniki/{uporabnikId}/")
     public Response posodobiArtikelUporabniku(@PathParam("artikelId") Integer artikelId, @PathParam("uporabnikId") Long uporabnikId,  ArtikelDto artikelDto) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.posodobiArtikel(artikelId, uporabnikId, artikelDto)).build();
+        Artikel artikel = upravljanjeNakupovalnihSeznamovZrno.posodobiArtikel(artikelId, uporabnikId, artikelDto);
+
+        if(artikel != null) {
+            return Response.ok(artikel).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
 
     }
 
@@ -54,7 +73,13 @@ public class ArtikliVir {
     @Path("/{artikelId}/uporabniki/{uporabnikId}/seznami/{seznamId}")
     public Response odstraniArtikelUporabniku(@PathParam("artikelId") Integer artikelId, @PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
-        return Response.ok(upravljanjeNakupovalnihSeznamovZrno.odstraniArtikel(artikelId, uporabnikId, seznamId)).build();
+        Artikel artikel = upravljanjeNakupovalnihSeznamovZrno.odstraniArtikel(artikelId, uporabnikId, seznamId);
+
+        if(artikel != null) {
+            return Response.ok(artikel).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
 
     }
 
