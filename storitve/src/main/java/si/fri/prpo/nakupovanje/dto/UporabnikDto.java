@@ -8,6 +8,8 @@ public class UporabnikDto {
     private String uporabniskoIme;
     private String geslo;
 
+    public UporabnikDto() {}
+
     public UporabnikDto(String ime, String priimek, String email, String uporabniskoIme, String geslo) {
         this.ime = ime;
         this.priimek = priimek;

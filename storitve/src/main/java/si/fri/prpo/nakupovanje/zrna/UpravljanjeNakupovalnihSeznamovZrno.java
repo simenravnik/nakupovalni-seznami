@@ -4,6 +4,7 @@ import si.fri.prpo.nakupovanje.dto.NakupovalniSeznamDto;
 import si.fri.prpo.nakupovanje.dto.UporabnikDto;
 import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;
+import si.fri.prpo.nakupovanje.izjeme.UporabniskoImeObstajaException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -160,9 +161,9 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
 
     }
 
-    public Uporabnik ustvariUporabnika(UporabnikDto uporabnikDto) {
+    public Uporabnik ustvariUporabnika(UporabnikDto uporabnikDto) throws RuntimeException {
 
-        if(uporabnikZrno.pridobiUporabnikaByUsername(uporabnikDto.getUporabniskoIme()) == null) {
+        if(uporabnikZrno.pridobiUporabnikaByUsername(uporabnikDto.getUporabniskoIme()).isEmpty()) {
             Uporabnik uporabnik = new Uporabnik();
 
             uporabnik.setIme(uporabnikDto.getIme());
@@ -174,8 +175,9 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
             return uporabnikZrno.insertUporabnik(uporabnik);
 
         } else {
-            log.info("Uporabnik s tem uporabniskim imenom ze obstaja, kreiranje neuspesno.");
-            return null;
+            String msg = "Uporabnik s tem uporabniskim imenom ze obstaja, kreiranje neuspesno.";
+            log.info(msg);
+            throw new UporabniskoImeObstajaException(msg);
         }
 
     }

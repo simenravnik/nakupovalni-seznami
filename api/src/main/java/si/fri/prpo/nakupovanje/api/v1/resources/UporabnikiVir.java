@@ -10,8 +10,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import si.fri.prpo.nakupovanje.api.v1.mappers.UporabniskoImeObstajaExceptionMapper;
+import si.fri.prpo.nakupovanje.dto.UporabnikDto;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;
+import si.fri.prpo.nakupovanje.izjeme.UporabniskoImeObstajaException;
 import si.fri.prpo.nakupovanje.zrna.UporabnikZrno;
+import si.fri.prpo.nakupovanje.zrna.UpravljanjeNakupovalnihSeznamovZrno;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,6 +36,9 @@ public class UporabnikiVir {
 
     @Inject
     private UporabnikZrno uporabnikZrno;
+
+    @Inject
+    private UpravljanjeNakupovalnihSeznamovZrno upravljanjeNakupovalnihSeznamovZrno;
 
     @Context
     protected UriInfo uriInfo;
@@ -96,19 +103,16 @@ public class UporabnikiVir {
             required = true,
             content = @Content(
                     schema = @Schema(implementation = Uporabnik.class)))
-                                                Uporabnik uporabnik) {
+                                            UporabnikDto uporabnikDto) {
 
-        if (uporabnikZrno.pridobiUporabnikaByUsername(uporabnik.getUporabniskoIme()).isEmpty()) {
+        try {
+            Uporabnik uporabnik = upravljanjeNakupovalnihSeznamovZrno.ustvariUporabnika(uporabnikDto);
 
             return Response.status(Response.Status.CREATED)
-                    .entity(uporabnikZrno.insertUporabnik(uporabnik))
+                    .entity(uporabnik)
                     .build();
-
-        } else {
-
-            log.info("Uporabnisko ime " + uporabnik.getUporabniskoIme() + " ze obstaja");
-            return Response.status(Response.Status.CONFLICT).build();
-
+        } catch (UporabniskoImeObstajaException e) {
+            return new UporabniskoImeObstajaExceptionMapper().toResponse(e);
         }
 
     }
