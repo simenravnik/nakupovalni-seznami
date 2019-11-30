@@ -1,5 +1,7 @@
 package si.fri.prpo.nakupovanje.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;
 
 import javax.annotation.PostConstruct;
@@ -40,6 +42,18 @@ public class UporabnikZrno {
         List<Uporabnik> uporabniki = em.createNamedQuery("Uporabnik.getAll").getResultList();
 
         return uporabniki;
+
+    }
+
+    public List<Uporabnik> pridobiUporabnike(QueryParameters query) {
+
+        return JPAUtils.queryEntities(em, Uporabnik.class, query);
+
+    }
+
+    public Long pridobiUporabnikeCount(QueryParameters query) {
+
+        return JPAUtils.queryEntitiesCount(em, Uporabnik.class, query);
 
     }
 

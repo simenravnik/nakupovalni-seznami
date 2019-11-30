@@ -1,5 +1,7 @@
 package si.fri.prpo.nakupovanje.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;
 
@@ -43,6 +45,18 @@ public class NakupovalniSeznamZrno {
         List<NakupovalniSeznam> seznami = em.createNamedQuery("NakupovalniSeznam.getAll").getResultList();
 
         return seznami;
+
+    }
+
+    public List<NakupovalniSeznam> pridobiNakupovalneSezname(QueryParameters query) {
+
+        return JPAUtils.queryEntities(em, NakupovalniSeznam.class, query);
+
+    }
+
+    public Long pridobiNakupovalneSeznameCount(QueryParameters query) {
+
+        return JPAUtils.queryEntitiesCount(em, NakupovalniSeznam.class, query);
 
     }
 

@@ -1,14 +1,16 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
-import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.nakupovanje.entitete.Uporabnik;
 import si.fri.prpo.nakupovanje.zrna.UporabnikZrno;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -22,9 +24,20 @@ public class UporabnikiVir {
     @Inject
     private UporabnikZrno uporabnikZrno;
 
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     public Response pridobiUporabnike() {
-        return Response.ok(uporabnikZrno.pridobiUporabnike()).build();
+
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        Long uporabnikiCount = uporabnikZrno.pridobiUporabnikeCount(query);
+
+        return Response
+                .ok(uporabnikZrno.pridobiUporabnike(query))
+                .header("X-Total-Count", uporabnikiCount)
+                .build();
+
     }
 
     @GET

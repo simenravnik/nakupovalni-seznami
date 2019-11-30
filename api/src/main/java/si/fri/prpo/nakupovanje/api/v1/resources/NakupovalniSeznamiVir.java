@@ -1,14 +1,18 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.nakupovanje.dto.NakupovalniSeznamDto;
 import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
+import si.fri.prpo.nakupovanje.zrna.NakupovalniSeznamZrno;
 import si.fri.prpo.nakupovanje.zrna.UpravljanjeNakupovalnihSeznamovZrno;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -22,6 +26,12 @@ public class NakupovalniSeznamiVir {
     @Inject
     private UpravljanjeNakupovalnihSeznamovZrno upravljanjeNakupovalnihSeznamovZrno;
 
+    @Inject
+    private NakupovalniSeznamZrno nakupovalniSeznamZrno;
+
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     @Path("uporabniki/{id}")
     public Response pridobiNakupovalneSeznameUporabnika(@PathParam("id") Long uporabnikId) {
@@ -31,7 +41,20 @@ public class NakupovalniSeznamiVir {
     }
 
     @GET
-    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
+    public Response pridobiNakupovalneSezname() {
+
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        Long nakupovalniSeznamiCount = nakupovalniSeznamZrno.pridobiNakupovalneSeznameCount(query);
+
+        return Response
+                .ok(nakupovalniSeznamZrno.pridobiNakupovalneSezname(query))
+                .header("X-Total-Count", nakupovalniSeznamiCount)
+                .build();
+
+    }
+
+    @GET
+    @Path("{seznamId}/uporabniki/{uporabnikId}")
     public Response pridobiNakupovalniSeznamUporabnika(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
         NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
@@ -57,7 +80,7 @@ public class NakupovalniSeznamiVir {
     }
 
     @PUT
-    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
+    @Path("{seznamId}/uporabniki/{uporabnikId}")
     public Response posodobiNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
 
         NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(uporabnikId, seznamId, nakupovalniSeznamDto);
@@ -71,7 +94,7 @@ public class NakupovalniSeznamiVir {
     }
 
     @DELETE
-    @Path("uporabniki/{uporabnikId}/seznami/{seznamId}")
+    @Path("{seznamId}/uporabniki/{uporabnikId}")
     public Response odstraniNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
         NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.odstraniNakupovalniSeznam(uporabnikId, seznamId);

@@ -1,14 +1,18 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.nakupovanje.dto.ArtikelDto;
 import si.fri.prpo.nakupovanje.entitete.Artikel;
+import si.fri.prpo.nakupovanje.zrna.ArtikelZrno;
 import si.fri.prpo.nakupovanje.zrna.UpravljanjeArtiklovZrno;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 @ApplicationScoped
 @Consumes(MediaType.APPLICATION_JSON)
@@ -19,11 +23,30 @@ public class ArtikliVir {
     @Inject
     private UpravljanjeArtiklovZrno upravljanjeArtiklovZrno;
 
+    @Inject
+    private ArtikelZrno artikelZrno;
+
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     @Path("/uporabniki/{uporabnikId}/seznami/{seznamId}")
     public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
 
         return Response.ok(upravljanjeArtiklovZrno.pridobiArtikleNakupovalnegaSeznama(uporabnikId, seznamId)).build();
+
+    }
+
+    @GET
+    public Response pridobiArtikleNakupovalnegaSeznama() {
+
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        Long nakupovalniSeznamiCount = artikelZrno.pridobiArtikleCount(query);
+
+        return Response
+                .ok(artikelZrno.pridobiArtikle(query))
+                .header("X-Total-Count", nakupovalniSeznamiCount)
+                .build();
 
     }
 
