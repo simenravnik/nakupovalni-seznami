@@ -54,10 +54,10 @@ public class NakupovalniSeznamiVir {
     }
 
     @GET
-    @Path("{seznamId}/uporabniki/{uporabnikId}")
-    public Response pridobiNakupovalniSeznamUporabnika(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
+    @Path("{seznamId}")
+    public Response pridobiNakupovalniSeznam(@PathParam("seznamId") Long seznamId) {
 
-        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznam(seznamId);
 
         if(nakupovalniSeznam != null) {
             return Response.ok(nakupovalniSeznam).build();
@@ -80,10 +80,10 @@ public class NakupovalniSeznamiVir {
     }
 
     @PUT
-    @Path("{seznamId}/uporabniki/{uporabnikId}")
-    public Response posodobiNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
+    @Path("{seznamId}")
+    public Response posodobiNakupovalniSeznamUporabniku(@PathParam("seznamId") Long seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
 
-        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(uporabnikId, seznamId, nakupovalniSeznamDto);
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(seznamId, nakupovalniSeznamDto);
 
         if (nakupovalniSeznam != null) {
             return Response.ok(nakupovalniSeznam).build();
@@ -94,10 +94,10 @@ public class NakupovalniSeznamiVir {
     }
 
     @DELETE
-    @Path("{seznamId}/uporabniki/{uporabnikId}")
-    public Response odstraniNakupovalniSeznamUporabniku(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
+    @Path("{seznamId}")
+    public Response odstraniNakupovalniSeznam(@PathParam("seznamId") Long seznamId) {
 
-        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.odstraniNakupovalniSeznam(uporabnikId, seznamId);
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.odstraniNakupovalniSeznam(seznamId);
 
         if (nakupovalniSeznam != null) {
             return Response.ok(nakupovalniSeznam).build();

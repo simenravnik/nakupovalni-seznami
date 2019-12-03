@@ -30,15 +30,15 @@ public class ArtikliVir {
     protected UriInfo uriInfo;
 
     @GET
-    @Path("/uporabniki/{uporabnikId}/seznami/{seznamId}")
-    public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
+    @Path("/seznam/{seznamId}")
+    public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("seznamId") Long seznamId) {
 
-        return Response.ok(upravljanjeArtiklovZrno.pridobiArtikleNakupovalnegaSeznama(uporabnikId, seznamId)).build();
+        return Response.ok(upravljanjeArtiklovZrno.pridobiArtikleNakupovalnegaSeznama(seznamId)).build();
 
     }
 
     @GET
-    public Response pridobiArtikleNakupovalnegaSeznama() {
+    public Response pridobiArtikle() {
 
         QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
         Long nakupovalniSeznamiCount = artikelZrno.pridobiArtikleCount(query);
@@ -51,10 +51,10 @@ public class ArtikliVir {
     }
 
     @GET
-    @Path("/{artikelId}/uporabniki/{uporabnikId}/seznami/{seznamId}/")
-    public Response pridobiArtikleNakupovalnegaSeznama(@PathParam("artikelId") Integer artikelId, @PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
+    @Path("{artikelId}")
+    public Response pridobiArtikel(@PathParam("artikelId") Long artikelId) {
 
-        Artikel artikel = upravljanjeArtiklovZrno.pridobiArtikelNakupovalnegaSeznama(uporabnikId, seznamId, artikelId);
+        Artikel artikel = upravljanjeArtiklovZrno.pridobiArtikel(artikelId);
 
         if(artikel != null) {
             return Response.ok(artikel).build();
@@ -65,10 +65,9 @@ public class ArtikliVir {
     }
 
     @POST
-    @Path("/uporabniki/{uporabnikId}")
-    public Response dodajArtikelNakupovalnemuSeznamuUporabnika(@PathParam("uporabnikId") Long uporabnikId, ArtikelDto artikelDto) {
+    public Response dodajArtikelNakupovalnemuSeznamu(ArtikelDto artikelDto) {
 
-        Artikel artikel = upravljanjeArtiklovZrno.ustvariArtikel(uporabnikId, artikelDto);
+        Artikel artikel = upravljanjeArtiklovZrno.ustvariArtikel(artikelDto);
 
         if(artikel != null) {
             return Response.ok(artikel).build();
@@ -79,10 +78,10 @@ public class ArtikliVir {
     }
 
     @PUT
-    @Path("/{artikelId}/uporabniki/{uporabnikId}/")
-    public Response posodobiArtikelUporabniku(@PathParam("artikelId") Integer artikelId, @PathParam("uporabnikId") Long uporabnikId,  ArtikelDto artikelDto) {
+    @Path("{artikelId}")
+    public Response posodobiArtikelUporabniku(@PathParam("artikelId") Long artikelId, ArtikelDto artikelDto) {
 
-        Artikel artikel = upravljanjeArtiklovZrno.posodobiArtikel(artikelId, uporabnikId, artikelDto);
+        Artikel artikel = upravljanjeArtiklovZrno.posodobiArtikel(artikelId, artikelDto);
 
         if(artikel != null) {
             return Response.ok(artikel).build();
@@ -93,10 +92,10 @@ public class ArtikliVir {
     }
 
     @DELETE
-    @Path("/{artikelId}/uporabniki/{uporabnikId}/seznami/{seznamId}")
-    public Response odstraniArtikelUporabniku(@PathParam("artikelId") Integer artikelId, @PathParam("uporabnikId") Long uporabnikId, @PathParam("seznamId") Integer seznamId) {
+    @Path("{artikelId}")
+    public Response odstraniArtikel(@PathParam("artikelId") Long artikelId) {
 
-        Artikel artikel = upravljanjeArtiklovZrno.odstraniArtikel(artikelId, uporabnikId, seznamId);
+        Artikel artikel = upravljanjeArtiklovZrno.odstraniArtikel(artikelId);
 
         if(artikel != null) {
             return Response.ok(artikel).build();

@@ -36,12 +36,12 @@ public class UpravljanjeArtiklovZrno {
 
     }
 
-    public List<Artikel> pridobiArtikleNakupovalnegaSeznama(Long uporabnikId, Integer seznamId) {
+    public List<Artikel> pridobiArtikleNakupovalnegaSeznama(Long seznamId) {
 
-        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznam(seznamId);
 
         if (nakupovalniSeznam == null) {
-            log.info("Nakupovalni seznam ne obstaja");
+            log.info("Nakupovalni seznam ne obstaja. Artikle nemorem pridobiti.");
             return null;
         }
 
@@ -49,33 +49,26 @@ public class UpravljanjeArtiklovZrno {
 
     }
 
-    public Artikel pridobiArtikelNakupovalnegaSeznama(Long uporabnikId, Integer seznamId, Integer artikelId) {
+    public Artikel pridobiArtikel(Long artikelId) {
 
-        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
+        Artikel artikel = artikelZrno.pridobiArtikel(artikelId);
 
-        if (nakupovalniSeznam == null) {
-            log.info("Nakupovalni seznam ne obstaja");
+        if(artikel == null) {
+            log.info("Artikel z id = " + artikelId + " ne obstaja. Nemorem ga pridobiti.");
             return null;
         }
 
-        List<Artikel> artikli =  nakupovalniSeznam.getArtikli();
-
-        if (artikli.size() < artikelId || artikelId < 1) {
-            log.info("Artikel " + artikelId +  " uporabnika " + nakupovalniSeznam.getUporabnik().getIme() + " ne obstaja. Ne morem vrniti artikla.");
-            return null;
-        }
-
-        return artikli.get(artikelId-1);
+        return artikel;
 
     }
 
     @BeleziKlice
-    public Artikel ustvariArtikel(Long uporabnikId, ArtikelDto artikelDto) {
+    public Artikel ustvariArtikel(ArtikelDto artikelDto) {
 
-        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, artikelDto.getSeznamId());
+        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznam(artikelDto.getSeznamId());
 
         if (nakupovalniSeznam == null) {
-            log.info("Nakupovalni seznam ne obstaja");
+            log.info("Nakupovalni seznam ne obstaja. Nemorem ustvariti artikla.");
             return null;
         }
 
@@ -88,51 +81,34 @@ public class UpravljanjeArtiklovZrno {
 
     }
 
-    public Artikel posodobiArtikel(Integer artikelId, Long uporabnikId, ArtikelDto artikelDto) {
+    public Artikel posodobiArtikel(Long artikelId, ArtikelDto artikelDto) {
 
-        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, artikelDto.getSeznamId());
-
-        if (nakupovalniSeznam == null) {
-            log.info("Nakupovalni seznam ne obstaja");
-            return null;
-        }
-
-        Artikel artikel = pridobiArtikelNakupovalnegaSeznama(uporabnikId, artikelDto.getSeznamId(), artikelId);
+        Artikel artikel = pridobiArtikel(artikelId);
 
         if (artikel == null) {
-            log.info("Artikel " + artikelId + ", nakupovalnega seznama " + artikelDto.getSeznamId() +  " ne obstaja.");
+            log.info("Artikel z id = " + artikelId + " ne obstaja. Nemorem ga posodobiti.");
             return null;
         }
 
-        artikel.setNakupovalniSeznam(nakupovalniSeznam);
         artikel.setImeArtikla(artikelDto.getImeArtikla());
-
-        artikelZrno.updateArtikel(artikel.getId(), artikel);
+        artikelZrno.updateArtikel(artikelId, artikel);
 
         return artikel;
 
     }
 
-    public Artikel odstraniArtikel(Integer artikelId, Long uporabnikId, Integer seznamId) {
+    public Artikel odstraniArtikel(Long artikelId) {
 
-        NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznamUporabnika(uporabnikId, seznamId);
-
-        if (nakupovalniSeznam == null) {
-            log.info("Nakupovalni seznam ne obstaja");
-            return null;
-        }
-
-        Artikel artikel = pridobiArtikelNakupovalnegaSeznama(uporabnikId, seznamId, artikelId);
+        Artikel artikel = pridobiArtikel(artikelId);
 
         if (artikel == null) {
-            log.info("Artikel " + artikelId + ", nakupovalnega seznama " + seznamId +  " ne obstaja.");
+            log.info("Artikel z id = " + artikelId + " ne obstaja. Nemorem ga izbrisati.");
             return null;
         }
 
-        artikelZrno.deleteArtikel(artikel.getId());
+        artikelZrno.deleteArtikel(artikelId);
 
         return artikel;
 
     }
-
 }

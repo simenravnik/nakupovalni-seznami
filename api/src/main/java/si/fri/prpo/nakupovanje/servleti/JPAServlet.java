@@ -54,8 +54,8 @@ public class JPAServlet extends HttpServlet {
         upravljanjeSeznamov.ustvariNakupovalniSeznam(nakupovalniSeznamDto);
 
         // Creating product for shopping list
-        ArtikelDto artikelDto = new ArtikelDto(1, "RTX 2070");
-        upravljanjeArtiklovZrno.ustvariArtikel(1L, artikelDto);
+        ArtikelDto artikelDto = new ArtikelDto(1L, "RTX 2070");
+        //upravljanjeArtiklovZrno.ustvariArtikel(1L, artikelDto);
 
         // Creating new user
         UporabnikDto uporabnikDto = new UporabnikDto("Mirko","Dostojevski","mirko.dosto12@hot.com","mirko13","noneofyourbusiness");
