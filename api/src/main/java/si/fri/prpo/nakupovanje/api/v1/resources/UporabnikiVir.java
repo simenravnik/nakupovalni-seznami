@@ -44,7 +44,7 @@ public class UporabnikiVir {
     protected UriInfo uriInfo;
 
     @Operation(description = "Vrne seznam uporabnikov.", summary = "Seznam uporabnikov.",
-        tags = "uporabniki", responses = {
+        tags = "Uporabniki", responses = {
             @ApiResponse(responseCode = "200",
                     description = "Seznam uporabnikov",
                     content = @Content(
@@ -60,25 +60,24 @@ public class UporabnikiVir {
         QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
         Long uporabnikiCount = uporabnikZrno.pridobiUporabnikeCount(query);
 
-        return Response
-                .ok(uporabnikZrno.pridobiUporabnike(query))
-                .header("X-Total-Count", uporabnikiCount)
-                .build();
+        return Response.ok(uporabnikZrno.pridobiUporabnike(query)).header("X-Total-Count", uporabnikiCount).build();
 
     }
 
     @Operation(description = "Vrne podrobnosti uporabnika.", summary = "Podrobnosti uporabnika.",
-            tags = "uporabniki", responses = {
+            tags = "Uporabniki", responses = {
             @ApiResponse(responseCode = "200",
                     description = "Podrobnosti uporabnika",
                     content = @Content(
-                                    schema = @Schema(implementation = Uporabnik.class))
+                            schema = @Schema(implementation = Uporabnik.class))
             )})
     @GET
     @Path("{id}")
-    public Response pridobiUporabnika(@Parameter(
-            description = "Identifikator uporabnika.",
-            required = true) @PathParam("id") Long id) {
+    public Response pridobiUporabnika(
+            @Parameter(
+                description = "Identifikator uporabnika.",
+                required = true)
+            @PathParam("id") Long id) {
 
         Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(id);
 
@@ -91,26 +90,25 @@ public class UporabnikiVir {
     }
 
     @Operation(description = "Dodaj uporabnika.", summary = "Dodajanje uporabnika.",
-            tags = "uporabniki", responses = {
+            tags = "Uporabniki", responses = {
             @ApiResponse(responseCode = "201",
                     description = "Uporabnik uspesno dodan."
             ),
                     @ApiResponse(responseCode = "405", description = "Napaka.")
             })
     @POST
-    public Response dodajUporabnika(@RequestBody(
-            description = "DTO objekt za dodajanje uporabnikov.",
-            required = true,
-            content = @Content(
-                    schema = @Schema(implementation = Uporabnik.class)))
-                                            UporabnikDto uporabnikDto) {
+    public Response dodajUporabnika(
+            @RequestBody(
+                description = "DTO objekt za dodajanje uporabnikov.",
+                required = true,
+                content = @Content(schema = @Schema(implementation = UporabnikDto.class)))
+            UporabnikDto uporabnikDto) {
 
         try {
-            Uporabnik uporabnik = upravljanjeNakupovalnihSeznamovZrno.ustvariUporabnika(uporabnikDto);
 
-            return Response.status(Response.Status.CREATED)
-                    .entity(uporabnik)
-                    .build();
+            Uporabnik uporabnik = upravljanjeNakupovalnihSeznamovZrno.ustvariUporabnika(uporabnikDto);
+            return Response.status(Response.Status.CREATED).entity(uporabnik).build();
+
         } catch (UporabniskoImeObstajaException e) {
             return new UporabniskoImeObstajaExceptionMapper().toResponse(e);
         }
@@ -118,7 +116,7 @@ public class UporabnikiVir {
     }
 
     @Operation(description = "Posodobi uporabnika.", summary = "Posodabljanje uporabnika.",
-            tags = "uporabniki", responses = {
+            tags = "Uporabniki", responses = {
             @ApiResponse(
                     responseCode = "200",
                     description = "Uporabnik uspesno posodobljen."
@@ -126,14 +124,16 @@ public class UporabnikiVir {
     })
     @PUT
     @Path("{id}")
-    public Response posodobiUporabnika(@Parameter(
-            description = "Identifikator uporabnika za posodabljanje.",
-            required = true) @PathParam("id") Long id, @RequestBody(
-            description = "DTO objekt za posodabljanje uporabnikov.",
-            required = true,
-            content = @Content(
-                    schema = @Schema(implementation = Uporabnik.class)))
-                                                        Uporabnik uporabnik) {
+    public Response posodobiUporabnika(
+            @Parameter(
+                description = "Identifikator uporabnika za posodabljanje.",
+                required = true)
+            @PathParam("id") Long id,
+            @RequestBody(
+                description = "DTO objekt za posodabljanje uporabnikov.",
+                required = true,
+                content = @Content(schema = @Schema(implementation = UporabnikDto.class)))
+            Uporabnik uporabnik) {
 
         if (uporabnikZrno.pridobiUporabnika(id) != null) {
             uporabnikZrno.updateUporabnik(id, uporabnik);
@@ -145,7 +145,7 @@ public class UporabnikiVir {
     }
 
     @Operation(description = "Odstrani uporabnika.", summary = "Brisanje uporabnika.",
-            tags = "uporabniki",
+            tags = "Uporabniki",
             responses = {
                 @ApiResponse(
                         responseCode = "200",
@@ -157,21 +157,20 @@ public class UporabnikiVir {
             })
     @DELETE
     @Path("{id}")
-    public Response odstraniUporabnika(@Parameter(
-            description = "Identifikator uporabnika za brisanje.",
-            required = true) @PathParam("id") Long id) {
+    public Response odstraniUporabnika(
+            @Parameter(
+                description = "Identifikator uporabnika za brisanje.",
+                required = true)
+            @PathParam("id") Long id) {
 
         if (uporabnikZrno.pridobiUporabnika(id) != null) {
+
             uporabnikZrno.deleteUporabnik(id);
-            return Response
-                    .status(Response.Status.OK)
-                    .build();
+            return Response.status(Response.Status.OK).build();
+
         } else {
-            return Response
-                    .status(Response.Status.NOT_FOUND)
-                    .build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
     }
-
 }
