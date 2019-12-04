@@ -1,6 +1,14 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import si.fri.prpo.nakupovanje.dto.NakupovalniSeznamDto;
 import si.fri.prpo.nakupovanje.entitete.NakupovalniSeznam;
 import si.fri.prpo.nakupovanje.zrna.NakupovalniSeznamZrno;
@@ -32,30 +40,69 @@ public class NakupovalniSeznamiVir {
     @Context
     protected UriInfo uriInfo;
 
+    @Operation(description = "Vrne seznam nakupovalnih seznamov uporabnika.", summary = "Seznam seznamov uporabnika.",
+            tags = "Nakupovalni seznami", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "Seznam nakupovalnih seznamov",
+                    content = @Content(
+                            array = @ArraySchema(
+                                    schema = @Schema(implementation = NakupovalniSeznam.class)
+                            ))
+                    )
+            }
+    )
     @GET
     @Path("uporabniki/{id}")
-    public Response pridobiNakupovalneSeznameUporabnika(@PathParam("id") Long uporabnikId) {
+    public Response pridobiNakupovalneSeznameUporabnika(
+            @Parameter(
+                description = "Identifikator uporabnika.",
+                required = true)
+            @PathParam("id") Long uporabnikId) {
 
         return Response.ok(upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznameUporabnika(uporabnikId)).build();
 
     }
 
+
+    @Operation(description = "Vrne seznam vseh nakupovalnih seznamov.", summary = "Seznam nakupovalnih seznamov.",
+            tags = "Nakupovalni seznami", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "Seznam nakupovalnih seznamov",
+                    content = @Content(
+                            array = @ArraySchema(
+                                    schema = @Schema(implementation = NakupovalniSeznam.class)
+                            )),
+                    headers = {@Header(name = "X-Total-Count", description = "Stevilo vrnjenih seznamov.")}
+                    )
+
+            }
+    )
     @GET
     public Response pridobiNakupovalneSezname() {
 
         QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
         Long nakupovalniSeznamiCount = nakupovalniSeznamZrno.pridobiNakupovalneSeznameCount(query);
 
-        return Response
-                .ok(nakupovalniSeznamZrno.pridobiNakupovalneSezname(query))
-                .header("X-Total-Count", nakupovalniSeznamiCount)
-                .build();
+        return Response.ok(nakupovalniSeznamZrno.pridobiNakupovalneSezname(query)).header("X-Total-Count", nakupovalniSeznamiCount).build();
 
     }
 
+    @Operation(description = "Vrne podrobnosti nakupovalnega seznama.", summary = "Podrobnosti nakupovalnega seznama.",
+            tags = "Nakupovalni seznami", responses = {
+            @ApiResponse(responseCode = "200",
+                    description = "Nakupovalni seznam",
+                    content = @Content(
+                            schema = @Schema(implementation = NakupovalniSeznam.class)
+                    ))
+            }
+    )
     @GET
     @Path("{seznamId}")
-    public Response pridobiNakupovalniSeznam(@PathParam("seznamId") Long seznamId) {
+    public Response pridobiNakupovalniSeznam(
+            @Parameter(
+                description = "Identifikator nakupovalnega seznama.",
+                required = true)
+            @PathParam("seznamId") Long seznamId) {
 
         NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.pridobiNakupovalniSeznam(seznamId);
 
@@ -67,8 +114,20 @@ public class NakupovalniSeznamiVir {
 
     }
 
+    @Operation(description = "Doda seznam uporabniku.", summary = "Dodajanje seznama.",
+            tags = "Nakupovalni seznami", responses = {
+            @ApiResponse(responseCode = "201",
+                    description = "Seznam uspesno dodan."
+            ),
+            @ApiResponse(responseCode = "405", description = "Napaka.")
+    })
     @POST
-    public Response dodajNakupovalniSeznamUporabniku(NakupovalniSeznamDto nakupovalniSeznamDto) {
+    public Response dodajNakupovalniSeznamUporabniku(
+            @RequestBody(
+                description = "DTO objekt za dodajanje seznamov.",
+                required = true,
+                content = @Content(schema = @Schema(implementation = NakupovalniSeznamDto.class)))
+            NakupovalniSeznamDto nakupovalniSeznamDto) {
 
         NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.ustvariNakupovalniSeznam(nakupovalniSeznamDto);
 
@@ -79,9 +138,28 @@ public class NakupovalniSeznamiVir {
         }
     }
 
+
+    @Operation(description = "Posodobi nakupovalni seznam.", summary = "Posodabljanje nakupovalnega seznama.",
+            tags = "Nakupovalni seznami",
+            responses = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Seznam uspesno posodobljen."
+                    )
+            }
+    )
     @PUT
     @Path("{seznamId}")
-    public Response posodobiNakupovalniSeznamUporabniku(@PathParam("seznamId") Long seznamId, NakupovalniSeznamDto nakupovalniSeznamDto) {
+    public Response posodobiNakupovalniSeznamUporabniku(
+            @Parameter(
+                description = "Identifikator nakupovalnega seznama.",
+                required = true)
+            @PathParam("seznamId") Long seznamId,
+            @RequestBody(
+                description = "DTO objekt za dodajanje seznamov.",
+                required = true,
+                content = @Content(schema = @Schema(implementation = NakupovalniSeznamDto.class)))
+            NakupovalniSeznamDto nakupovalniSeznamDto) {
 
         NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.posodobiNakupovalniSeznam(seznamId, nakupovalniSeznamDto);
 
@@ -93,9 +171,25 @@ public class NakupovalniSeznamiVir {
 
     }
 
+    @Operation(description = "Odstrani nakupovalni seznam.", summary = "Brisanje nakupovalnega seznama.",
+            tags = "Nakupovalni seznami",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Seznam uspesno odstranjen."
+                    ), @ApiResponse(
+                            responseCode = "404",
+                            description = "Seznam ne obstaja."
+                    )
+            }
+    )
     @DELETE
     @Path("{seznamId}")
-    public Response odstraniNakupovalniSeznam(@PathParam("seznamId") Long seznamId) {
+    public Response odstraniNakupovalniSeznam(
+            @Parameter(
+                description = "Identifikator nakupovalnega seznama.",
+                required = true)
+            @PathParam("seznamId") Long seznamId) {
 
         NakupovalniSeznam nakupovalniSeznam = upravljanjeNakupovalnihSeznamovZrno.odstraniNakupovalniSeznam(seznamId);
 
