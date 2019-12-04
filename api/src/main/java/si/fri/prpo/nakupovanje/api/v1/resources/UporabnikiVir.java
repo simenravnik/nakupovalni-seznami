@@ -133,11 +133,12 @@ public class UporabnikiVir {
                 description = "DTO objekt za posodabljanje uporabnikov.",
                 required = true,
                 content = @Content(schema = @Schema(implementation = UporabnikDto.class)))
-            Uporabnik uporabnik) {
+            UporabnikDto uporabnikDto) {
 
-        if (uporabnikZrno.pridobiUporabnika(id) != null) {
-            uporabnikZrno.updateUporabnik(id, uporabnik);
-            return Response.status(Response.Status.OK).build();
+        Uporabnik uporabnik = upravljanjeNakupovalnihSeznamovZrno.posodobiUporabnika(id, uporabnikDto);
+
+        if(uporabnik != null) {
+            return Response.ok(uporabnik).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

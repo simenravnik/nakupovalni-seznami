@@ -153,4 +153,27 @@ public class UpravljanjeNakupovalnihSeznamovZrno {
         }
 
     }
+
+    public Uporabnik posodobiUporabnika(Long uporabnikId, UporabnikDto uporabnikDto) {
+
+        Uporabnik uporabnik = uporabnikZrno.pridobiUporabnika(uporabnikId);
+
+        if(uporabnik == null) {
+
+            log.info("Uporabnik z id = " + uporabnikId + " ne obstaja. Nemorem ga posodobiti.");
+            return null;
+
+        }
+
+        uporabnik.setIme(uporabnikDto.getIme());
+        uporabnik.setPriimek(uporabnikDto.getPriimek());
+        uporabnik.setEmail(uporabnikDto.getEmail());
+        uporabnik.setUporabniskoIme(uporabnikDto.getUporabniskoIme());
+        uporabnik.setGeslo(uporabnikDto.getGeslo());
+
+        uporabnikZrno.updateUporabnik(uporabnikId, uporabnik);
+
+        return uporabnik;
+
+    }
 }
