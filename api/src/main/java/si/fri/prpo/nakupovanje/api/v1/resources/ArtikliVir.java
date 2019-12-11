@@ -14,13 +14,15 @@ import si.fri.prpo.nakupovanje.entitete.Artikel;
 import si.fri.prpo.nakupovanje.zrna.ArtikelZrno;
 import si.fri.prpo.nakupovanje.zrna.UpravljanjeArtiklovZrno;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.*;
+import java.util.List;
 
 @ApplicationScoped
 @Consumes(MediaType.APPLICATION_JSON)
@@ -36,6 +38,17 @@ public class ArtikliVir {
 
     @Context
     protected UriInfo uriInfo;
+
+    private Client httpClient;
+
+    private String baseUrl;
+
+    @PostConstruct
+    private void init() {
+        httpClient = ClientBuilder.newClient();
+        baseUrl = "http://localhost:8081/v1";
+    }
+
 
     @Operation(description = "Vrne seznam artiklov nakupovalnega seznama.", summary = "Artikle seznama.",
             tags = "Artikli", responses = {
@@ -127,6 +140,13 @@ public class ArtikliVir {
 
         Artikel artikel = upravljanjeArtiklovZrno.ustvariArtikel(artikelDto);
 
+        /* ko dodamo artikel, ga dodamo se v priporocilne sisteme */
+        httpClient.target(baseUrl)
+                .path("pogostiArtikli")
+                .request()
+                .post(Entity.entity(artikelDto, MediaType.APPLICATION_JSON));
+
+
         if(artikel != null) {
             return Response.ok(artikel).build();
         } else {
@@ -196,4 +216,17 @@ public class ArtikliVir {
 
     }
 
+    /**
+     * Priporocilni Sistemi
+     */
+    @GET
+    @Path("/pogostiArtikli")
+    public Response pridobiPogosteArtikle() {
+        List<String> pogostiArtikli = httpClient.target(baseUrl)
+                .path("pogostiArtikli")
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<String>>() {});
+
+        return Response.ok(pogostiArtikli).build();
+    }
 }
