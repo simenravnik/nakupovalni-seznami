@@ -12,3 +12,8 @@ kumuluzee:
   openapi:
     ui:
       enabled: true
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/NakupovalniSeznamiDS
