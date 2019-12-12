@@ -17,3 +17,5 @@ kumuluzee:
       data-source-health-check:
         type: liveness
         jndi-name: jdbc/NakupovalniSeznamiDS
+      http-health-check:
+        connection-url: http://localhost:8081/v1/pogostiArtikli
