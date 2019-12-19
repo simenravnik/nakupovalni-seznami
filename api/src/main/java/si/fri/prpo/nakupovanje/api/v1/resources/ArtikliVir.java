@@ -22,6 +22,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.*;
+import java.io.IOException;
 import java.util.List;
 
 @ApplicationScoped
@@ -214,6 +215,22 @@ public class ArtikliVir {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
+    }
+
+    @GET
+    @Path("/similar/{imeArtikla}")
+    public Response pridobiPodobne(@PathParam("imeArtikla") String imeArtikla) throws IOException {
+
+        String url = "https://twinword-word-associations-v1.p.rapidapi.com/associations/?entry=" + imeArtikla;
+
+        String response = httpClient.target(url)
+                .request("text/plain")
+                .header("x-rapidapi-host", "twinword-word-associations-v1.p.rapidapi.com")
+                .header("x-rapidapi-key", "c4a4cc3548mshf9e1e9e6078d257p167885jsn92ad0379098d")
+                .buildGet()
+                .invoke(String.class);
+
+        return Response.ok(response).build();
     }
 
     /**
