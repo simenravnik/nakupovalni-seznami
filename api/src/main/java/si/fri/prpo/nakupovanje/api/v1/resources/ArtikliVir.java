@@ -1,5 +1,6 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,9 +27,10 @@ import java.io.IOException;
 import java.util.List;
 
 @ApplicationScoped
+@Path("artikli")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@Path("artikli")
+@CrossOrigin(allowOrigin = "http://localhost:4200/")
 public class ArtikliVir {
 
     @Inject

@@ -28,6 +28,7 @@
         <kumuluzee-rest.version>1.2.3</kumuluzee-rest.version>
         <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
         <kumuluzee-health.version>2.1.0</kumuluzee-health.version>
+        <kumuluzee-cors.version>1.0.5</kumuluzee-cors.version>
         <postgresql.version>42.2.8</postgresql.version>
     </properties>
 

@@ -1,5 +1,6 @@
 package si.fri.prpo.nakupovanje.api.v1.resources;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +31,7 @@ import java.util.logging.Logger;
 @Path("uporabniki")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@CrossOrigin(allowOrigin = "http://localhost:4200/")
 public class UporabnikiVir {
 
     private Logger log = Logger.getLogger(UporabnikiVir.class.getName());
