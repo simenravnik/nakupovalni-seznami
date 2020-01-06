@@ -30,7 +30,7 @@ import java.util.List;
 @Path("artikli")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@CrossOrigin(allowOrigin = "http://localhost:4200/")
+@CrossOrigin(supportedMethods = "GET,POST,HEAD,OPTIONS,PUT,DELETE")
 public class ArtikliVir {
 
     @Inject

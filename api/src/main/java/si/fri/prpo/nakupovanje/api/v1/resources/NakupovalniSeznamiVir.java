@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 @Path("nakupovalniseznami")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@CrossOrigin(allowOrigin = "http://localhost:4200/")
+@CrossOrigin(supportedMethods = "GET,POST,HEAD,OPTIONS,PUT,DELETE")
 public class NakupovalniSeznamiVir {
 
     Logger log = Logger.getLogger(NakupovalniSeznamiVir.class.getName());
