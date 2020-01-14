@@ -36,7 +36,7 @@ public class Uporabnik {
     @Column(name="geslo", length=50, nullable=false, unique=false)
     private String geslo;
 
-    @OneToMany(mappedBy = "uporabnik", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "uporabnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<NakupovalniSeznam> nakupovalniSeznami;
 
     public void addNakupovalniSeznam(NakupovalniSeznam nakupovalniSeznam) {
